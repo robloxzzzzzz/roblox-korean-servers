@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Корейские сервера</title>
+    <style>
+        /* Базовые стили и гармоничный нежно-розовый градиент */
+        body {
+            margin: 0;
+            padding: 40px 0; /* Добавили отступы сверху и снизу, чтобы сайт казался длиннее */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #fff0f3, #ffccd5);
+            color: #5c0618; /* Тёмно-малиновый тон для идеальной читаемости */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Контейнер для анимации падающих малиновых кубиков */
+        #particles-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Стилизация кубиков — теперь они благородного малинового тона */
+        .cube {
+            position: absolute;
+            background-color: rgba(164, 19, 60, 0.35); 
+            border-radius: 6px;
+            pointer-events: none;
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-50px) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(105vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Главный контейнер (Сайт стал длиннее за счет padding и max-width) */
+        .container {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            border-radius: 30px;
+            padding: 50px 40px; /* Увеличили внутреннюю длину сайта */
+            width: 90%;
+            max-width: 480px;
+            text-align: center;
+            box-shadow: 0 15px 35px rgba(164, 19, 60, 0.12);
+            border: 1px solid rgba(255, 182, 193, 0.6);
+            z-index: 10;
+            position: relative;
+            
+            /* Плавное покачивание всей карточки (левитация) */
+            animation: float 6s ease-in-out infinite;
+        }
+
+        /* Эффект плавного подъема и опускания */
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-12px);
+            }
+        }
+
+        /* Картинка-заглушка с мягкой малиновой тенью */
+        .header-image {
+            width: 100%;
+            max-height: 220px;
+            object-fit: cover;
+            border-radius: 20px;
+            box-shadow: 0 8px 20px rgba(164, 19, 60, 0.15);
+            margin-bottom: 30px;
+        }
+
+        /* Главный заголовок */
+        h1 {
+            font-size: 28px;
+            margin: 0 0 12px 0;
+            color: #800f2f; /* Глубокий малиновый */
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        /* Подзаголовок и инфо-блок */
+        .subtitle {
+            font-size: 14px;
+            color: #a4133c;
+            margin-bottom: 40px; /* Увеличили отступ для длины */
+            line-height: 1.5;
+        }
+
+        .likee-link {
+            font-weight: 700;
+            color: #ff4d6d;
+            background: rgba(255, 77, 109, 0.1);
+            padding: 2px 6px;
+            border-radius: 6px;
+        }
+
+        /* Декоративный разделитель для визуального удлинения */
+        .divider {
+            height: 1px;
+            background: linear-gradient(to right, transparent, #ffb3c6, transparent);
+            margin: 20px 0 35px 0;
+        }
+
+        /* Блок кнопок */
+        .btn-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px; /* Больше пространства между кнопками */
+            margin-bottom: 50px; /* Увеличили отступ снизу */
+        }
+
+        /* Кнопки в тон сайта (Малиново-розовый градиент) */
+        .btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 18px 24px;
+            background: linear-gradient(135deg, #ff758f, #c70039);
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 15px;
+            border-radius: 16px;
+            box-shadow: 0 6px 20px rgba(199, 0, 57, 0.25);
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px rgba(199, 0, 57, 0.35);
+            background: linear-gradient(135deg, #ff8fa3, #ff4d6d);
+        }
+
+        .btn:active {
+            transform: translateY(-1px);
+        }
+
+        /* Футер (Дисклеймер) с мягким цветом в тон */
+        .footer-text {
+            font-size: 11px;
+            color: #9a6673;
+            line-height: 1.5;
+            border-top: 1px solid rgba(255, 179, 198, 0.4);
+            padding-top: 25px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Контейнер для падающих кубиков -->
+    <div id="particles-container"></div>
+
+    <!-- Главная карточка сайта -->
+    <div class="container">
+        
+        <!-- КАРТИНКА: Можешь заменить ссылку в src на свою -->
+        <img class="header-image" src="cat.jpg" alt="Сервера">
+
+        <h1>Корейские сервера</h1>
+        
+        <div class="subtitle">
+            Наш Likee: <span class="likee-link">@mmm2trusttradeSs</span>.<br>
+            Проверяйте источник ради вашей же безопасности! Заходить только с VPN
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="btn-container">
+            <!-- КНОПКА 1: Вставь свою ссылку вместо # -->
+            <a href="https://roblox.com.ki/games/142823291/Murder-Mystery-2?privateServerLinkCode=09057325037186004151729218705606" target="_blank" class="btn">
+                Перейти на корейский сервер Murder Mystery &rarr;
+            </a>
+
+            <!-- КНОПКА 2: Вставь свою ссылку вместо # -->
+            <a href="https://roblox.com.ki/games/920587237/12X-Adopt-Me?privateServerLinkCode=09057325037186004151729218705606" target="_blank" class="btn">
+                Перейти на корейский сервер Adopt Me! &rarr;
+            </a>
+        </div>
+
+        <div class="footer-text">
+            Создатели сайта; Likee аккаунта не несут ответственность за проделанные вами действия, после выхода с сайта.
+        </div>
+    </div>
+
+    <!-- Скрипт для генерации летающих кубиков -->
+    <script>
+        const container = document.getElementById('particles-container');
+        const cubeCount = 30; // Чуть увеличили количество кубиков для длинного сайта
+
+        function createCube() {
+            const cube = document.createElement('div');
+            cube.classList.add('cube');
+
+            const size = Math.random() * 14 + 10;
+            cube.style.width = `${size}px`;
+            cube.style.height = `${size}px`;
+            cube.style.left = `${Math.random() * 100}vw`;
+
+            const duration = Math.random() * 8 + 7;
+            cube.style.animationDuration = `${duration}s`;
+            cube.style.animationDelay = `${Math.random() * -15}s`;
+
+            container.appendChild(cube);
+
+            setTimeout(() => {
+                cube.remove();
+                createCube();
+            }, duration * 1000);
+        }
+
+        for (let i = 0; i < cubeCount; i++) {
+            createCube();
+        }
+    </script>
+</body>
+</html>

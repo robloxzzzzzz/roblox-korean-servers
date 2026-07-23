@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Наши проекты</title>
+    <!-- Подключаем шрифт Onest -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-color: #0b0c10;
+            --card-bg: #15171e;
+            --text-main: #ffffff;
+            --text-muted: #8b949e;
+            --text-dim: #57606a;
+            --accent: #58a6ff;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Onest', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 20px;
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            text-align: center;
+        }
+
+        /* Изображение кошки над заголовком */
+        .header-image {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 24px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 12px;
+            letter-spacing: -0.5px;
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            font-weight: 300;
+            line-height: 1.5;
+            margin-bottom: 48px;
+            padding: 0 20px;
+        }
+
+        /* Блоки-окошки */
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 24px;
+            padding: 32px;
+            margin-bottom: 24px;
+            text-align: left;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            
+            /* Элементы анимации */
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        /* Класс, который будет добавляться при прокрутке */
+        .card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Стилизация текста в первом окне */
+        .card-1 .dim-text {
+            color: var(--text-muted);
+            font-weight: 400;
+            font-size: 1.1rem;
+            margin-bottom: 12px;
+        }
+
+        .card-1 .highlight-text {
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .card-1 .small-dim-text {
+            color: var(--text-dim);
+            font-size: 0.85rem;
+            margin-top: 16px;
+            margin-bottom: 20px;
+            line-height: 1.4;
+        }
+
+        .bot-link-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 12px 20px;
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .bot-username {
+            font-weight: 700;
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 1.1rem;
+        }
+
+        /* Иконка Roblox в тонах сайта */
+        .roblox-icon {
+            width: 24px;
+            height: 24px;
+            fill: var(--text-muted);
+        }
+
+        /* Стилизация текста во втором окне */
+        .card-2 {
+            font-size: 1.25rem;
+            line-height: 1.6;
+        }
+
+        .bold {
+            font-weight: 800;
+        }
+
+        .normal {
+            font-weight: 400;
+            color: var(--text-muted);
+        }
+
+        .servers-info {
+            font-size: 1rem;
+            color: var(--text-muted);
+            margin-top: 20px;
+            margin-bottom: 28px;
+        }
+
+        /* Мелкий шрифт перед кнопкой пересылки */
+        .agreement-text {
+            font-size: 0.75rem;
+            color: var(--text-dim);
+            text-align: center;
+            margin-bottom: 12px;
+            font-weight: 300;
+            line-height: 1.4;
+        }
+
+        /* Кнопка-ссылка */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #ffffff;
+            color: #000000;
+            text-decoration: none;
+            padding: 14px 28px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1rem;
+            width: 100%;
+            transition: background-color 0.2s, transform 0.2s;
+        }
+
+        .btn:hover {
+            background-color: #e5e5e5;
+        }
+        
+        .btn:active {
+            transform: scale(0.98);
+        }
+
+        .btn svg {
+            margin-left: 8px;
+            width: 18px;
+            height: 18px;
+        }
+
+        /* Ссылка на отдельное соглашение */
+        .tos-link-wrapper {
+            text-align: center;
+            margin-top: 20px;
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .tos-link-wrapper.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .tos-link {
+            font-size: 0.8rem;
+            color: var(--text-dim);
+            text-decoration: underline;
+            transition: color 0.2s;
+        }
+
+        .tos-link:hover {
+            color: var(--text-muted);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Картинка кошки -->
+        <img src="cat.jpg" alt="Кошка" class="header-image">
+
+        <!-- Заголовки -->
+        <h1>Наши проекты:</h1>
+        <p class="subtitle">Все проекты защищены. Проверяйте источник ради вашей же безопасности.</p>
+
+        <!-- Первое окошко -->
+        <div class="card card-1">
+            <div class="dim-text">Мечтали о боте для траст трейдов в Murder Mystery 2?</div>
+            <div class="highlight-text">Мечты сбываются!</div>
+            <div class="dim-text">Наш бот дарит по одной Godly на пользователя в сутки за траст трейд.</div>
+            <div class="small-dim-text">Принимает только Godly/Ancient</div>
+            
+            <div class="bot-link-container">
+                <a href="https://t.me/MysteryTwoTrustBot" class="bot-username" target="_blank">@MysteryTwoTrustBot</a>
+                <svg class="roblox-icon" viewBox="0 0 24 24">
+                    <path d="M4.94 1.29L22.71 6.13L19.06 22.71L1.29 17.87L4.94 1.29ZM10.29 10.74L13.25 11.55L12.44 14.51L9.48 13.7L10.29 10.74Z"/>
+                </svg>
+            </div>
+        </div>
+
+        <!-- Второе окошко -->
+        <div class="card card-2">
+            <div>
+                <span class="bold">МЫ</span> 
+                <span class="normal">предоставляем доступ на</span> 
+                <span class="bold">КОРЕЙСКИЕ</span> 
+                <span class="normal">сервера Roblox</span> 
+                <span class="bold">БЕСПЛАТНО!</span>
+            </div>
+            
+            <div class="servers-info">
+                Доступны сервера двух типов: Adopt Me! И Murder Mystery 2.
+            </div>
+
+            <!-- Мелкий шрифт перед кнопкой -->
+            <div class="agreement-text">
+                Пользуясь нашими услугами, вы соглашаетесь с пользовательским соглашением
+            </div>
+
+            <!-- Кнопка со стрелкой -->
+            <a href="servers.html" class="btn">
+                Перейти на наш сайт
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+            </a>
+        </div>
+
+        <!-- Отдельная кликабельная надпись для соглашения -->
+        <div class="tos-link-wrapper card">
+            <div style="text-align: center; width: 100%;">
+                <a href="terms.html" class="tos-link" target="_blank">Прочитать пользовательское соглашение</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Анимация появления при скролле вверх/вниз
+        const cards = document.querySelectorAll('.card, .tos-link-wrapper');
+
+        const observerOptions = {
+            root: null,
+            threshold: 0.05,
+            rootMargin: "0px 0px -40px 0px"
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                } else {
+                    entry.target.classList.remove('visible');
+                }
+            });
+        }, observerOptions);
+
+        cards.forEach(card => {
+            observer.observe(card);
+        });
+    </script>
+</body>
+</html>
