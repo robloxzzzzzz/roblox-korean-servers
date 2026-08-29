@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 — CatDevs</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        @font-face {
+            font-family: 'SiteFont';
+            src: url('./fonts/ClarisSans.ttf') format('truetype');
+            unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+            font-weight: 400 800;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'SiteFont';
+            src: url('./fonts/SchuelerNeuerVerbessertBold.ttf') format('truetype');
+            unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+            font-weight: 400 800;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'OscanExpanded';
+            src: url('./fonts/OscanExpanded.ttf') format('truetype');
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'OscanExpandedOutline';
+            src: url('./fonts/OscanExpandedOutline.ttf') format('truetype');
+            font-display: swap;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'SiteFont', 'Poppins', sans-serif;
+            background: #030305;
+            color: #a0a0b0;
+            min-height: 100vh;
+            overflow-x: hidden;
+            line-height: 1.7;
+        }
+
+        #bg-canvas {
+            position: fixed; top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 0; pointer-events: none;
+        }
+
+        .wrap {
+            position: relative; z-index: 1;
+            max-width: 720px; margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            animation: fadeUp 0.8s ease-out both;
+        }
+
+        .hero-logo {
+            font-size: clamp(36px, 10vw, 72px);
+            font-weight: 800;
+            color: #ffffff;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            text-shadow: 0 0 60px rgba(255,255,255,0.08), 0 4px 30px rgba(0,0,0,0.9);
+            margin-bottom: 40px;
+            font-family: 'OscanExpanded', 'OscanExpandedOutline', 'Poppins', sans-serif;
+        }
+
+        .glass-card {
+            background: linear-gradient(135deg,
+                rgba(255,255,255,0.07) 0%,
+                rgba(255,255,255,0.02) 50%,
+                rgba(255,255,255,0.05) 100%);
+            backdrop-filter: blur(24px) saturate(200%);
+            -webkit-backdrop-filter: blur(24px) saturate(200%);
+            border: 1px solid rgba(255,255,255,0.10);
+            border-radius: 28px;
+            padding: 48px 36px;
+            box-shadow:
+                0 24px 64px rgba(0,0,0,0.5),
+                inset 0 1px 0 rgba(255,255,255,0.08),
+                inset 0 -1px 0 rgba(0,0,0,0.2);
+            text-align: center;
+            width: 100%;
+            max-width: 480px;
+            position: relative;
+            overflow: hidden;
+        }
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: radial-gradient(circle at 30% 30%,
+                rgba(255,255,255,0.04) 0%,
+                transparent 50%);
+            pointer-events: none;
+        }
+
+        .error-code {
+            font-size: clamp(72px, 20vw, 140px);
+            font-weight: 800;
+            color: #ffffff;
+            line-height: 1;
+            letter-spacing: 0.05em;
+            margin-bottom: 12px;
+            font-family: 'OscanExpanded', 'OscanExpandedOutline', 'Poppins', sans-serif;
+            text-shadow: 0 0 80px rgba(255,255,255,0.06), 0 4px 40px rgba(0,0,0,0.8);
+        }
+        .error-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 10px;
+        }
+        .error-desc {
+            font-size: 15px;
+            color: #6a6a7a;
+            margin-bottom: 32px;
+            line-height: 1.7;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center; gap: 8px;
+            padding: 14px 28px;
+            background: linear-gradient(135deg,
+                rgba(255,255,255,0.08) 0%,
+                rgba(255,255,255,0.03) 100%);
+            backdrop-filter: blur(16px) saturate(180%);
+            -webkit-backdrop-filter: blur(16px) saturate(180%);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 18px;
+            color: #e8e8f0;
+            font-family: 'SiteFont', 'Poppins', sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow:
+                inset 0 1px 0 rgba(255,255,255,0.06),
+                0 4px 20px rgba(0,0,0,0.2);
+            text-decoration: none;
+        }
+        .back-btn::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg,
+                rgba(255,255,255,0.12) 0%,
+                transparent 60%);
+            opacity: 0;
+            transition: opacity 0.35s ease;
+            pointer-events: none;
+        }
+        .back-btn:hover {
+            transform: translateY(-3px) scale(1.01);
+            border-color: rgba(255,255,255,0.22);
+            box-shadow:
+                inset 0 1px 0 rgba(255,255,255,0.1),
+                0 12px 40px rgba(0,0,0,0.35);
+        }
+        .back-btn:hover::before { opacity: 1; }
+        .back-btn:active {
+            transform: translateY(-1px) scale(0.995);
+        }
+
+        /* ═══════════════════════════════════════
+           CORNER IMAGE BOX (компактный, пустой)
+           ═══════════════════════════════════════ */
+        .corner-box {
+            position: fixed;
+            right: 16px;
+            bottom: 16px;
+            width: 120px;
+            height: 120px;
+            z-index: 50;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none;
+        }
+        .corner-placeholder {
+            position: absolute;
+            inset: 0;
+            border: 1px dashed rgba(255,255,255,0.12);
+            border-radius: 12px;
+            transition: opacity 0.4s ease;
+            pointer-events: auto;
+        }
+        .corner-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: none;
+            filter: drop-shadow(0 8px 24px rgba(0,0,0,0.4));
+            pointer-events: auto;
+        }
+        /* Когда картинка загружена — рамка пропадает полностью */
+        .corner-box.has-image .corner-placeholder {
+            opacity: 0;
+            pointer-events: none;
+        }
+        .corner-box.has-image img {
+            display: block;
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255,255,255,0.08);
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="bg-canvas"></canvas>
+
+    <div class="wrap">
+        <div class="hero-logo" id="logo-404">CatDevs</div>
+
+        <div class="glass-card">
+            <div class="error-code">404</div>
+            <div class="error-title">Страница не найдена</div>
+            <div class="error-desc">
+                Возможно, она была удалена, переименована,<br>
+                или вы перешли по неверной ссылке.
+            </div>
+            <a href="./index.html" class="back-btn">◀️ Вернуться назад</a>
+        </div>
+    </div>
+
+    <!-- Прямоугольник для картинки -->
+    <div class="corner-box" id="corner-box">
+        <img id="corner-img" alt="404 mascot">
+        <div class="corner-placeholder"></div>
+    </div>
+
+    <script>
+        // === RANDOM OSCAN LOGO ===
+        (function() {
+            const logo = document.getElementById('logo-404');
+            const isOutline = Math.random() < 0.5;
+            logo.style.fontFamily = isOutline
+                ? "'OscanExpandedOutline', 'Poppins', sans-serif"
+                : "'OscanExpanded', 'Poppins', sans-serif";
+        })();
+
+        // === CORNER IMAGE LOGIC ===
+        (function() {
+            const box = document.getElementById('corner-box');
+            const img = document.getElementById('corner-img');
+
+            img.onload = function() {
+                box.classList.add('has-image');
+            };
+            img.onerror = function() {
+                box.classList.remove('has-image');
+            };
+
+            img.src = './images/404-mascot.png';
+        })();
+
+        // === PARTICLE BACKGROUND ===
+        const canvas = document.getElementById('bg-canvas');
+        const ctx = canvas.getContext('2d');
+        let W, H, particles = [];
+        const COUNT = 70;
+
+        function resize() {
+            W = canvas.width = window.innerWidth;
+            H = canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        class Particle {
+            constructor() { this.reset(); }
+            reset() {
+                this.x = Math.random() * W * 0.2 - Math.random() * 80;
+                this.y = H + Math.random() * 100;
+                this.r = Math.random() * 1.8 + 0.4;
+                this.vx = Math.random() * 1.0 + 0.3;
+                this.vy = -(Math.random() * 1.0 + 0.3);
+                this.alpha = Math.random() * 0.4 + 0.08;
+                this.decay = Math.random() * 0.0012 + 0.0006;
+            }
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                this.alpha -= this.decay;
+                if (this.x > W + 50 || this.y < -50 || this.alpha <= 0) this.reset();
+            }
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(210, 220, 255, ' + this.alpha + ')';
+                ctx.fill();
+            }
+        }
+
+        for (let i = 0; i < COUNT; i++) {
+            let p = new Particle();
+            p.x = Math.random() * W;
+            p.y = Math.random() * H;
+            particles.push(p);
+        }
+
+        function drawLines() {
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    let dx = particles[i].x - particles[j].x;
+                    let dy = particles[i].y - particles[j].y;
+                    let d = Math.sqrt(dx*dx + dy*dy);
+                    if (d < 130) {
+                        let a = (1 - d/130) * 0.07;
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.strokeStyle = 'rgba(190, 200, 255, ' + a + ')';
+                        ctx.lineWidth = 0.5;
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, W, H);
+            particles.forEach(p => { p.update(); p.draw(); });
+            drawLines();
+            requestAnimationFrame(animate);
+        }
+        animate();
+    </script>
+</body>
+</html>

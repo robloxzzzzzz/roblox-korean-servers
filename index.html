@@ -1,0 +1,1305 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CatDevs — Корейские сервера Roblox</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        @font-face {
+            font-family: 'SiteFont';
+            src: url('./fonts/ClarisSans.ttf') format('truetype');
+            unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+            font-weight: 400 800;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'SiteFont';
+            src: url('./fonts/SchuelerNeuerVerbessertBold.ttf') format('truetype');
+            unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+            font-weight: 400 800;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'OscanExpanded';
+            src: url('./fonts/OscanExpanded.ttf') format('truetype');
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'OscanExpandedOutline';
+            src: url('./fonts/OscanExpandedOutline.ttf') format('truetype');
+            font-display: swap;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'SiteFont', 'Poppins', sans-serif;
+            background: #030305;
+            color: #a0a0b0;
+            min-height: 100vh;
+            overflow-x: hidden;
+            line-height: 1.7;
+        }
+
+        /* ═══════════════════════════════════════
+           SITE LOGO
+           ═══════════════════════════════════════ */
+        .site-logo {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 16px;
+            background: linear-gradient(135deg,
+                rgba(255,255,255,0.07) 0%,
+                rgba(255,255,255,0.02) 100%);
+            backdrop-filter: blur(16px) saturate(180%);
+            -webkit-backdrop-filter: blur(16px) saturate(180%);
+            border: 1px solid rgba(255,255,255,0.10);
+            border-radius: 14px;
+            text-decoration: none;
+            transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow:
+                inset 0 1px 0 rgba(255,255,255,0.06),
+                0 4px 20px rgba(0,0,0,0.2);
+        }
+        .site-logo:hover {
+            transform: translateY(-2px);
+            border-color: rgba(255,255,255,0.20);
+            box-shadow:
+                inset 0 1px 0 rgba(255,255,255,0.08),
+                0 8px 32px rgba(0,0,0,0.3);
+        }
+        .site-logo:active {
+            transform: translateY(0) scale(0.98);
+        }
+        .logo-img-wrap {
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .logo-img-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            filter: drop-shadow(0 0 6px rgba(255,255,255,0.15));
+            display: block;
+        }
+        .logo-text {
+            font-family: 'OscanExpanded', 'OscanExpandedOutline', 'Poppins', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            color: #ffffff;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+            white-space: nowrap;
+        }
+
+        @media (max-width: 480px) {
+            .site-logo {
+                top: 12px;
+                left: 12px;
+                padding: 6px 12px;
+                gap: 8px;
+            }
+            .logo-img-wrap {
+                width: 30px;
+                height: 30px;
+            }
+            .logo-text {
+                font-size: 14px;
+            }
+        }
+
+        /* ═══════════════════════════════════════
+           PRELOADER
+           ═══════════════════════════════════════ */
+        #preloader {
+            position: fixed;
+            inset: 0;
+            z-index: 99999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 40px;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+        }
+        #preloader.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        #preload-catdevs {
+            font-size: clamp(40px, 12vw, 84px);
+            font-weight: 800;
+            color: #ffffff;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            display: flex;
+            gap: 0.05em;
+            text-shadow:
+                0 0 60px rgba(255,255,255,0.08),
+                0 4px 30px rgba(0,0,0,0.9);
+        }
+        #preload-catdevs span {
+            display: inline-block;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: letterIn 0.4s cubic-bezier(0.22,1,0.36,1) forwards;
+        }
+        @keyframes letterIn {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .preload-bar-wrap {
+            width: min(320px, 80vw);
+            height: 4px;
+            background: rgba(255,255,255,0.06);
+            border-radius: 2px;
+            overflow: hidden;
+            position: relative;
+        }
+        .preload-bar-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, rgba(255,255,255,0.8), rgba(255,255,255,0.4));
+            border-radius: 2px;
+            animation: loadBar 5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+        @keyframes loadBar {
+            0%   { width: 0%; }
+            8%   { width: 12%; }
+            18%  { width: 12%; }
+            26%  { width: 35%; }
+            36%  { width: 35%; }
+            44%  { width: 58%; }
+            54%  { width: 58%; }
+            62%  { width: 78%; }
+            72%  { width: 78%; }
+            80%  { width: 92%; }
+            90%  { width: 92%; }
+            100% { width: 100%; }
+        }
+        .preload-hint {
+            font-size: 12px;
+            color: #3a3a4a;
+            font-family: 'Poppins', sans-serif;
+            letter-spacing: 0.05em;
+            margin-top: 8px;
+            opacity: 0;
+            animation: fadeHint 0.8s ease 1.8s forwards;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+        }
+        @keyframes fadeHint {
+            to { opacity: 1; }
+        }
+
+        /* ═══════════════════════════════════════
+           ENTER SCREEN
+           ═══════════════════════════════════════ */
+        #enter-screen {
+            position: fixed;
+            inset: 0;
+            z-index: 99998;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 32px;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+        }
+        #enter-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+        .enter-logo {
+            font-size: clamp(48px, 14vw, 96px);
+            font-weight: 800;
+            color: #ffffff;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            text-shadow:
+                0 0 80px rgba(255,255,255,0.06),
+                0 4px 40px rgba(0,0,0,0.9);
+            font-family: 'OscanExpanded', 'OscanExpandedOutline', 'Poppins', sans-serif;
+        }
+        .enter-sub {
+            font-size: 16px;
+            color: #5a5a6a;
+            font-weight: 400;
+            letter-spacing: 0.05em;
+            margin-top: -16px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+        }
+        .enter-btn-wrap {
+            width: min(320px, 80vw);
+            margin-top: 8px;
+        }
+        .enter-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            padding: 18px 22px;
+            background: linear-gradient(135deg,
+                rgba(255,255,255,0.08) 0%,
+                rgba(255,255,255,0.03) 100%);
+            backdrop-filter: blur(16px) saturate(180%);
+            -webkit-backdrop-filter: blur(16px) saturate(180%);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 18px;
+            color: #e8e8f0;
+            font-family: 'SiteFont', 'Poppins', sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            text-align: center;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow:
+                inset 0 1px 0 rgba(255,255,255,0.06),
+                0 4px 20px rgba(0,0,0,0.2);
+            text-shadow: 0 1px 8px rgba(0,0,0,0.6);
+        }
+        .enter-btn::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(135deg,
+                rgba(255,255,255,0.12) 0%,
+                transparent 60%);
+            opacity: 0;
+            transition: opacity 0.35s ease;
+            pointer-events: none;
+        }
+        .enter-btn:hover {
+            transform: translateY(-3px) scale(1.01);
+            border-color: rgba(255,255,255,0.22);
+            box-shadow:
+                inset 0 1px 0 rgba(255,255,255,0.1),
+                0 12px 40px rgba(0,0,0,0.35);
+        }
+        .enter-btn:hover::before { opacity: 1; }
+        .enter-btn:active {
+            transform: translateY(-1px) scale(0.995);
+        }
+        .enter-btn .icon {
+            font-size: 18px;
+            filter: drop-shadow(0 0 8px rgba(255,255,255,0.15));
+            transition: transform 0.3s ease;
+        }
+        .enter-btn:hover .icon {
+            transform: translateX(3px);
+        }
+
+        /* ═══════════════════════════════════════
+           BACKGROUND CANVAS
+           ═══════════════════════════════════════ */
+        #bg-canvas {
+            position: fixed; top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 0; pointer-events: none;
+        }
+
+        .wrap {
+            position: relative; z-index: 1;
+            max-width: 720px; margin: 0 auto;
+            padding: 0 24px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease 0.3s, transform 0.8s ease 0.3s;
+        }
+        .wrap.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .hero {
+            text-align: center;
+            padding: 100px 0 60px;
+        }
+        .hero h1 {
+            font-size: clamp(28px, 6vw, 48px);
+            font-weight: 800;
+            color: #ffffff;
+            line-height: 1.15;
+            letter-spacing: -0.02em;
+            margin-bottom: 16px;
+        }
+        .hero p {
+            font-size: 17px;
+            color: #6a6a7a;
+            font-weight: 400;
+            max-width: 480px;
+            margin: 0 auto;
+        }
+
+        .glass-card {
+            background: linear-gradient(135deg,
+                rgba(255,255,255,0.07) 0%,
+                rgba(255,255,255,0.02) 50%,
+                rgba(255,255,255,0.05) 100%);
+            backdrop-filter: blur(24px) saturate(200%);
+            -webkit-backdrop-filter: blur(24px) saturate(200%);
+            border: 1px solid rgba(255,255,255,0.10);
+            border-radius: 28px;
+            padding: 36px;
+            box-shadow:
+                0 24px 64px rgba(0,0,0,0.5),
+                inset 0 1px 0 rgba(255,255,255,0.08),
+                inset 0 -1px 0 rgba(0,0,0,0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: radial-gradient(circle at 30% 30%,
+                rgba(255,255,255,0.04) 0%,
+                transparent 50%);
+            pointer-events: none;
+        }
+
+        .screen {
+            display: none;
+            animation: fadeUp 0.4s ease-out both;
+        }
+        .screen.active { display: block; }
+
+        .welcome-text {
+            font-size: 16px;
+            line-height: 1.85;
+            color: #9090a0;
+            margin-bottom: 32px;
+        }
+        .welcome-text .big-white {
+            color: #ffffff;
+            font-weight: 700;
+            font-size: 1.15em;
+        }
+
+        .lg-btn {
+            display: block; width: 100%;
+            padding: 18px 22px;
+            margin-bottom: 14px;
+            background: linear-gradient(135deg,
+                rgba(255,255,255,0.08) 0%,
+                rgba(255,255,255,0.03) 100%);
+            backdrop-filter: blur(16px) saturate(180%);
+            -webkit-backdrop-filter: blur(16px) saturate(180%);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 18px;
+            color: #e8e8f0;
+            font-family: 'SiteFont', 'Poppins', sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            text-align: left;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow:
+                inset 0 1px 0 rgba(255,255,255,0.06),
+                0 4px 20px rgba(0,0,0,0.2);
+        }
+        .lg-btn::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(135deg,
+                rgba(255,255,255,0.12) 0%,
+                transparent 60%);
+            opacity: 0;
+            transition: opacity 0.35s ease;
+            pointer-events: none;
+        }
+        .lg-btn:hover {
+            transform: translateY(-3px) scale(1.01);
+            border-color: rgba(255,255,255,0.22);
+            box-shadow:
+                inset 0 1px 0 rgba(255,255,255,0.1),
+                0 12px 40px rgba(0,0,0,0.35);
+        }
+        .lg-btn:hover::before { opacity: 1; }
+        .lg-btn:active {
+            transform: translateY(-1px) scale(0.995);
+        }
+        .lg-btn:last-child { margin-bottom: 0; }
+        .lg-btn .icon {
+            margin-right: 10px;
+            font-size: 18px;
+            filter: drop-shadow(0 0 8px rgba(255,255,255,0.15));
+        }
+
+        .site-wrap {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .site-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 28px;
+            background: linear-gradient(145deg,
+                rgba(255,255,255,0.10) 0%,
+                rgba(255,255,255,0.04) 100%);
+            backdrop-filter: blur(14px) saturate(180%);
+            -webkit-backdrop-filter: blur(14px) saturate(180%);
+            border: 1px solid rgba(255,255,255,0.14);
+            border-radius: 14px;
+            color: #ffffff;
+            font-family: 'SiteFont', 'Poppins', sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.35s cubic-bezier(0.22,1,0.36,1);
+            box-shadow:
+                inset 0 1px 0 rgba(255,255,255,0.06),
+                0 6px 24px rgba(0,0,0,0.25);
+        }
+        .site-btn:hover {
+            transform: translateY(-2px) scale(1.02);
+            border-color: rgba(255,255,255,0.24);
+            box-shadow:
+                inset 0 1px 0 rgba(255,255,255,0.08),
+                0 12px 36px rgba(0,0,0,0.35);
+        }
+        .site-btn:active {
+            transform: translateY(0) scale(0.99);
+        }
+        .site-btn .arrow {
+            transition: transform 0.3s ease;
+        }
+        .site-btn:hover .arrow {
+            transform: translateX(3px);
+        }
+
+        .content-text {
+            font-size: 15px;
+            line-height: 1.9;
+            color: #a0a0b0;
+            margin-bottom: 28px;
+            white-space: pre-line;
+        }
+        .content-text .q {
+            color: #ffffff;
+            font-weight: 700;
+            font-size: 1.1em;
+            display: block;
+            margin-top: 20px;
+            margin-bottom: 6px;
+        }
+        .content-text .q:first-child { margin-top: 0; }
+        .content-text .ok {
+            color: #ffffff;
+            font-weight: 700;
+            font-size: 1.2em;
+        }
+        .likee-link {
+            color: #8b9aff;
+            text-decoration: none;
+            font-weight: 600;
+            border-bottom: 1px solid rgba(139,154,255,0.3);
+            transition: all 0.2s;
+        }
+        .likee-link:hover {
+            color: #b8c4ff;
+            border-bottom-color: rgba(184,196,255,0.6);
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center; gap: 8px;
+            padding: 12px 24px;
+            background: linear-gradient(135deg,
+                rgba(255,255,255,0.06) 0%,
+                rgba(255,255,255,0.02) 100%);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,255,255,0.10);
+            border-radius: 14px;
+            color: #d0d0e0;
+            font-family: 'SiteFont', 'Poppins', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .back-btn:hover {
+            background: linear-gradient(135deg,
+                rgba(255,255,255,0.10) 0%,
+                rgba(255,255,255,0.04) 100%);
+            border-color: rgba(255,255,255,0.18);
+            transform: translateX(-2px);
+        }
+
+        .loading-wrap {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 44px 0;
+            gap: 20px;
+        }
+        .spinner {
+            position: relative;
+            width: 56px; height: 56px;
+        }
+        .spinner .ring {
+            position: absolute; inset: 0;
+            border-radius: 50%;
+            border: 2.5px solid transparent;
+            border-top-color: rgba(255,255,255,0.9);
+            animation: spin 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+        }
+        .spinner .ring:nth-child(1) {
+            border-top-color: rgba(255,255,255,0.9);
+            animation-duration: 1.2s;
+        }
+        .spinner .ring:nth-child(2) {
+            inset: 8px;
+            border-top-color: rgba(255,255,255,0.5);
+            animation-duration: 0.9s;
+            animation-direction: reverse;
+        }
+        .spinner .ring:nth-child(3) {
+            inset: 16px;
+            border-top-color: rgba(255,255,255,0.25);
+            animation-duration: 0.6s;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .loading-text {
+            font-size: 14px;
+            color: #6a6a7a;
+            font-weight: 500;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 0.4; }
+            50% { opacity: 1; }
+        }
+
+        .modal-overlay {
+            position: fixed; inset: 0;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(8px);
+            z-index: 100;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .modal-overlay.active {
+            display: flex;
+            opacity: 1;
+        }
+        .modal {
+            width: 100%;
+            max-width: 640px;
+            max-height: 80vh;
+            background: linear-gradient(145deg,
+                rgba(255,255,255,0.07) 0%,
+                rgba(255,255,255,0.02) 100%);
+            backdrop-filter: blur(30px) saturate(200%);
+            -webkit-backdrop-filter: blur(30px) saturate(200%);
+            border: 1px solid rgba(255,255,255,0.10);
+            border-radius: 24px;
+            box-shadow: 0 24px 80px rgba(0,0,0,0.6);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            transform: scale(0.95) translateY(10px);
+            transition: transform 0.35s cubic-bezier(0.22,1,0.36,1);
+        }
+        .modal-overlay.active .modal {
+            transform: scale(1) translateY(0);
+        }
+        .modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 24px 16px;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+        .modal-header h3 {
+            font-size: 17px;
+            font-weight: 700;
+            color: #ffffff;
+        }
+        .modal-close {
+            width: 32px; height: 32px;
+            border-radius: 10px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.08);
+            color: #8a8a9a;
+            font-size: 18px;
+            font-family: inherit;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+        .modal-close:hover {
+            background: rgba(255,255,255,0.10);
+            color: #ffffff;
+        }
+        .modal-body {
+            padding: 20px 24px 24px;
+            overflow-y: auto;
+            font-size: 13.5px;
+            line-height: 1.75;
+            color: #8a8a9a;
+        }
+        .modal-body h4 {
+            font-size: 14px;
+            font-weight: 700;
+            color: #ffffff;
+            margin: 18px 0 8px;
+        }
+        .modal-body h4:first-child { margin-top: 0; }
+        .modal-body p {
+            margin-bottom: 10px;
+        }
+        .modal-body .note {
+            background: rgba(255,255,255,0.03);
+            border-left: 2px solid rgba(255,255,255,0.10);
+            padding: 10px 14px;
+            margin: 12px 0;
+            border-radius: 0 10px 10px 0;
+            font-size: 12.5px;
+            color: #6a6a7a;
+        }
+
+        .tos-line {
+            text-align: center;
+            margin-top: 28px;
+            font-size: 12.5px;
+            color: #3a3a4a;
+            line-height: 1.6;
+        }
+        .tos-line a {
+            color: #5a5a6a;
+            text-decoration: underline;
+            text-decoration-color: rgba(255,255,255,0.15);
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+        .tos-line a:hover {
+            color: #8a8a9a;
+            text-decoration-color: rgba(255,255,255,0.3);
+        }
+
+        .section {
+            margin-top: 60px;
+            padding: 40px 0;
+            animation: fadeUp 0.8s ease-out both;
+        }
+        .section-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 20px;
+            letter-spacing: -0.01em;
+        }
+        .section-text {
+            font-size: 16px;
+            line-height: 1.85;
+            color: #7a7a8a;
+        }
+        .section-text p { margin-bottom: 16px; }
+        .section-text strong {
+            color: #ffffff;
+            font-weight: 600;
+        }
+
+        .step-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-top: 20px;
+        }
+        .step {
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+        }
+        .step-num {
+            flex-shrink: 0;
+            width: 40px; height: 40px;
+            border-radius: 12px;
+            background: linear-gradient(135deg,
+                rgba(255,255,255,0.08) 0%,
+                rgba(255,255,255,0.02) 100%);
+            border: 1px solid rgba(255,255,255,0.10);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 15px;
+            font-weight: 700;
+            color: #ffffff;
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.05);
+        }
+        .step-body {
+            flex: 1;
+            padding-top: 8px;
+            font-size: 15px;
+            line-height: 1.75;
+            color: #8a8a9a;
+        }
+        .step-body strong {
+            color: #ffffff;
+            font-weight: 600;
+        }
+        .step-body .tg-link {
+            color: #64b5f6;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+        .step-body .tg-link:hover { color: #90caf9; }
+        .step-body .tg-logo {
+            display: inline-block;
+            vertical-align: middle;
+            width: 18px; height: 18px;
+            margin-right: 4px;
+            opacity: 0.5;
+        }
+        .step-body .ps-note {
+            font-size: 13px;
+            color: #4a4a5a;
+            font-style: italic;
+            margin-left: 4px;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 16px;
+            margin-top: 24px;
+        }
+        .feature-item {
+            background: linear-gradient(135deg,
+                rgba(255,255,255,0.04) 0%,
+                rgba(255,255,255,0.01) 100%);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 16px;
+            padding: 24px;
+            transition: all 0.3s ease;
+        }
+        .feature-item:hover {
+            border-color: rgba(255,255,255,0.12);
+            transform: translateY(-2px);
+        }
+        .feature-item h3 {
+            font-size: 18px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 8px;
+        }
+        .feature-item p {
+            font-size: 14px;
+            color: #6a6a7a;
+            line-height: 1.6;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 60px 0 40px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            margin-top: 60px;
+        }
+        .footer p {
+            font-size: 13px;
+            color: #4a4a5a;
+            font-weight: 400;
+        }
+        .footer .brand {
+            color: #6a6a7a;
+            font-weight: 600;
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255,255,255,0.08);
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+    <!-- SITE LOGO -->
+    <a href="./index.html" class="site-logo" id="site-logo">
+        <div class="logo-img-wrap">
+            <img src="./images/404-mascot.png" alt="" onerror="this.style.display='none'">
+        </div>
+        <span class="logo-text">CatDevs</span>
+    </a>
+
+    <!-- PRELOADER -->
+    <div id="preloader">
+        <div id="preload-catdevs">
+            <span style="animation-delay:0.0s">C</span>
+            <span style="animation-delay:0.15s">A</span>
+            <span style="animation-delay:0.30s">T</span>
+            <span style="animation-delay:0.45s">D</span>
+            <span style="animation-delay:0.60s">E</span>
+            <span style="animation-delay:0.75s">V</span>
+            <span style="animation-delay:0.90s">S</span>
+        </div>
+        <div style="width: min(320px, 80vw);">
+            <div class="preload-bar-wrap">
+                <div class="preload-bar-fill"></div>
+            </div>
+            <div class="preload-hint">Загрузка ресурсов...</div>
+        </div>
+    </div>
+
+    <!-- ENTER SCREEN -->
+    <div id="enter-screen" class="hidden">
+        <div class="enter-logo">CatDevs</div>
+        <div class="enter-sub">Корейские сервера Roblox</div>
+        <div class="enter-btn-wrap">
+            <button class="enter-btn" onclick="enterSite()">
+                <span class="icon">→</span> Войти на сайт
+            </button>
+        </div>
+    </div>
+
+    <canvas id="bg-canvas"></canvas>
+
+    <div class="wrap" id="main-wrap">
+        <div class="hero">
+            <h1>Корейские сервера<br>в Roblox</h1>
+            <p>Простой способ попасть на корейские сервера Roblox</p>
+        </div>
+
+        <div class="glass-card">
+            <div id="screen-main" class="screen active">
+                <div class="welcome-text">
+                    Добро пожаловать в бота для использования корейских серверов в <span class="big-white">Roblox</span>.
+                    Здесь вы можете проверить состояние бота <span class="big-white">MysteryTwoTrustBot</span>,
+                    узнать ответы на частые вопросы и написать в поддержку.
+                    Выберите одно из действий:
+                </div>
+                <button class="lg-btn" onclick="showLoadingThenStatus()">
+                    <span class="icon">✅</span> Проверить состояние бота
+                </button>
+                <button class="lg-btn" onclick="showScreen('faq')">
+                    <span class="icon">❔</span> Узнать ответы на частые вопросы
+                </button>
+                <button class="lg-btn" onclick="showScreen('support')">
+                    <span class="icon">❗</span> Написать в поддержку
+                </button>
+            </div>
+
+            <div id="screen-loading" class="screen">
+                <div class="loading-wrap">
+                    <div class="spinner">
+                        <div class="ring"></div>
+                        <div class="ring"></div>
+                        <div class="ring"></div>
+                    </div>
+                    <p class="loading-text">Проверяем состояние бота...</p>
+                </div>
+            </div>
+
+            <div id="screen-status" class="screen">
+                <div class="content-text">
+                    <span class="ok">[✅] Бот исправен.</span>
+
+                    Запросить запуск можете в нашем Likee:
+                    👉 <a href="https://likee.video/@mmm2trusttradeSs" target="_blank" class="likee-link">@mmm2trusttradeSs</a>
+                </div>
+                <button class="back-btn" onclick="showScreen('main')">◀️ Назад</button>
+            </div>
+
+            <div id="screen-faq" class="screen">
+                <div class="content-text">
+                    <span class="q">1. Наши сервисы безопасны?</span>
+                    Да, наши сервисы безопасны. По дополнительным вопросам на эту тему обратитесь в поддержку.
+
+                    <span class="q">2. Сайт использует куки?</span>
+                    Нет, сайт физически не может контактировать с куки, так как его хостинг — GitHub Pages. Можете не беспокоиться насчёт вашей приватности.
+
+                    <span class="q">3. Почему бот запускается так редко?</span>
+                    Для бота нужен сервер. У нас это ПК и его использование не бесплатно. К сожалению, приходится делать так.
+
+                    <span class="q">4. Почему бот принимает именно Godly либо Ancient?</span>
+                    Ответ прост: нам не выгодно отдавать годли за Common. Ими можно было бы выбивать все годли из бота, не оставив никому ни одной.
+
+                    <span class="q">5. Будут ли новые проекты от CatDevs?</span>
+                    Конечно будут! Вы можете дать идей.
+
+                    <span class="q">6. Почему бесплатно?</span>
+                    Наш сервис бесплатный, потому что делать платным очень сложно. Возможно, в скором времени мы добавим наш сайт в LootLabs, чтобы заработать деньги на пополнение бота годли с рекламы. Поторопитесь!
+                </div>
+                <button class="back-btn" onclick="showScreen('main')">◀️ Назад</button>
+            </div>
+
+            <div id="screen-support" class="screen">
+                <div class="content-text">
+                    🐈‍⬛ Чтобы написать в поддержку, используйте сообщения каналу. Они полностью бесплатны и сохраняют приватность работающих там людей. 🐈
+                </div>
+                <button class="back-btn" onclick="showScreen('main')">◀️ Назад</button>
+            </div>
+
+            <div class="site-wrap">
+                <!-- Кнопка с динамической ссылкой -->
+                <a href="./404.html" class="site-btn" id="dynamic-site-btn">
+                    Перейти на сайт <span class="arrow">→</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">Как получить Godly</h2>
+            <div class="step-list">
+                <div class="step">
+                    <div class="step-num">1</div>
+                    <div class="step-body">
+                        Заходим в <strong>Roblox</strong> и отправляем запрос в друзья <strong>MysteryTwoTrustBot</strong>.
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-num">2</div>
+                    <div class="step-body">
+                        Ждём запуска бота и заходим в <strong>Murder Mystery 2</strong>. Вы можете отправить боту <strong>Invite</strong>.
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-num">3</div>
+                    <div class="step-body">
+                        Проводим <strong>"Trust Trade"</strong>.
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-num">4</div>
+                    <div class="step-body">
+                        Получаем <strong>Godly</strong> в подарок.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">Как зайти на корейские сервера</h2>
+            <div class="step-list">
+                <div class="step">
+                    <div class="step-num">1</div>
+                    <div class="step-body">
+                        Подписываемся на
+                        <svg class="tg-logo" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M21.5 4.5L2.5 11.5L9.5 13.5L12.5 20.5L21.5 4.5Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" fill="none"/>
+                            <path d="M9.5 13.5L15.5 8.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                        </svg>
+                        <a href="https://t.me/KoreanServersRobloxCatdev" target="_blank" class="tg-link">@KoreanServersRobloxCatdev</a>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-num">2</div>
+                    <div class="step-body">
+                        Следуем инструкции и заходим на сайт.
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-num">3</div>
+                    <div class="step-body">
+                        Если <strong>LootLabs</strong> уже добавили — проходим.
+                        <span class="ps-note">P.s. если нет — пропустите этот шаг :)</span>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-num">4</div>
+                    <div class="step-body">
+                        Заходим на корейский сервер и радуемся! Могут быть очереди, нужно быть терпеливыми.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">О проекте</h2>
+            <div class="section-text">
+                <p>CatDevs — это команда энтузиастов, которая создаёт инструменты для сообщества Roblox. Наш основной проект позволяет игрокам из любой точки мира попадать на корейские сервера.</p>
+                <p>Мы верим, что доступ к контенту должен быть свободным и безопасным. Все наши сервисы работают на прозрачных условиях без скрытых платежей и подписок.</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">Преимущества</h2>
+            <div class="feature-grid">
+                <div class="feature-item">
+                    <h3>🚀 Быстрый доступ</h3>
+                    <p>Заходите на корейские сервера за считанные секунды без сложных настроек и ожиданий.</p>
+                </div>
+                <div class="feature-item">
+                    <h3>🔒 Безопасность</h3>
+                    <p>Мы не запрашиваем пароли и не храним ваши данные. Всё работает через официальные методы Roblox.</p>
+                </div>
+                <div class="feature-item">
+                    <h3>💎 Godly & Ancient</h3>
+                    <p>Бот принимает только редкие предметы, что гарантирует честность и равные возможности для всех.</p>
+                </div>
+                <div class="feature-item">
+                    <h3>🆓 Полностью бесплатно</h3>
+                    <p>Сервис работает без каких-либо платежей. Поддержите нас подпиской на Likee!</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="tos-line">Продолжая пользоваться нашими услугами вы соглашаетесь<br>с <a onclick="openTos()">пользовательским соглашением</a>.</div>
+
+        <div class="footer">
+            <p>Разработано командой <span class="brand">CatDevs</span>. Все права защищены.</p>
+        </div>
+    </div>
+
+    <!-- TOS Modal -->
+    <div class="modal-overlay" id="tos-modal" onclick="if(event.target===this)closeTos()">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Пользовательское соглашение</h3>
+                <button class="modal-close" onclick="closeTos()">✕</button>
+            </div>
+            <div class="modal-body">
+                <h4>1. Общие положения</h4>
+                <p>1.1. Настоящее Пользовательское соглашение (далее — «Соглашение») регулирует порядок использования данного ресурса и всех сопутствующих интерактивных элементов, ботов, пересылок и внешних ссылок.</p>
+                <p>1.2. Получая доступ к материалам, запуская ботов или выполняя переход по размещенным ссылкам, Пользователь считается безоговорочно присоединившимся к настоящему Соглашению и принимающим его условия в полном объеме.</p>
+                <p>1.3. Использование ресурсов без ознакомления или в случае несогласия с действующей редакцией данных условий строго запрещено.</p>
+
+                <h4>2. Полное принятие ответственности</h4>
+                <p>2.1. Пользователь прямо соглашается, что он принимает на себя абсолютно все риски, возникающие в результате использования предложенных инструментов, игровых комнат, серверов или ботов.</p>
+                <p>2.2. Любые внутриигровые операции, транзакции, доверительные обмены (включая т.н. «Trust Trades» в режимах Murder Mystery 2, Adopt Me! и любых других плейсах платформы Roblox) совершаются Пользователем осознанно и по собственной инициативе. Пользователь берет на себя единоличную финансовую, техническую и моральную ответственность за любые последствия подобных действий.</p>
+
+                <h4>3. Отказ от гарантийных обязательств</h4>
+                <p>3.1. Функционал Сервиса предоставляется на общепринятых условиях «как есть» (as is) и «по мере доступности» (as available). Создатели и администрация Сервиса не несут ответственности за стабильность работы внешних API, серверов Roblox, мессенджера Telegram или любых иных платформ.</p>
+                <p>3.2. Администрация не гарантирует получение каких-либо виртуальных предметов, наград (включая предметы категорий Godly, Ancient и др.), корректную обработку обменов сторонними автоматизированными системами или отсутствие сбоев в процессе игровой сессии.</p>
+
+                <h4>4. Сторонние ресурсы и проверка ссылок</h4>
+                <p>4.1. В рамках функционирования Сервиса могут публиковаться перенаправления и URL-адреса, ведущие на внешние независимые платформы, сайты или приватные серверы.</p>
+                <div class="note">
+                    Важное примечание: Администрация заблаговременно уведомляет Пользователя о том, что любые внешние исходящие ссылки ВОЗМОЖНО и в силу объективных сетевых факторов могут быть небезопасны, модифицированы третьими лицами, содержать фишинговые механики, вредоносные скрипты или нежелательный контент. Пользователь обязан самостоятельно, вручную и с максимальной тщательностью проверять конечный доменный адрес источника, валидность SSL-сертификатов и общую подлинность страниц перед совершением каких-либо авторизационных действий ради обеспечения своей личной безопасности.
+                </div>
+                <p>4.2. Администрация не производит модерацию сторонних площадок и полностью снимает с себя ответственность за кражу аккаунтов, сессий или заражение пользовательских устройств в результате переходов.</p>
+
+                <h4>5. Ограничение ответственности и убытки</h4>
+                <p>5.1. Ни при каких обстоятельствах администрация Сервиса или разработчики не несут материальной или юридической ответственности перед Пользователем или третьими лицами за любые прямые или косвенные убытки, включая потерю игрового имущества, блокировку учетных записей (бан) модерацией Roblox, компрометацию данных или упущенную выгоду.</p>
+
+                <h4>6. Заключительные положения</h4>
+                <p>6.1. Настоящее Соглашение может быть изменено в одностороннем порядке в любой момент времени без специального персонального уведомления Пользователей.</p>
+                <p>6.2. Продолжение использования ресурсов после внесения любых правок означает автоматическое согласие Пользователя с обновленными правилами.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // === RANDOM OSCAN 50/50 ===
+        (function() {
+            const catdevs = document.getElementById('preload-catdevs');
+            const isOutline = Math.random() < 0.5;
+            catdevs.style.fontFamily = isOutline 
+                ? "'OscanExpandedOutline', 'Poppins', sans-serif" 
+                : "'OscanExpanded', 'Poppins', sans-serif";
+        })();
+
+        // === PRELOADER + ENTER SCREEN (bfcache-friendly) ===
+        (function() {
+            let preloaderTimer = null;
+            const preloader    = document.getElementById('preloader');
+            const enterScreen  = document.getElementById('enter-screen');
+            const mainWrap     = document.getElementById('main-wrap');
+            const barFill      = document.querySelector('.preload-bar-fill');
+
+            function resetAll() {
+                preloader.classList.remove('hidden');
+                enterScreen.classList.add('hidden');
+                mainWrap.classList.remove('visible');
+                barFill.style.animation = 'none';
+                void barFill.offsetWidth;
+                barFill.style.animation = '';
+            }
+
+            function finishPreloader() {
+                preloader.classList.add('hidden');
+                enterScreen.classList.remove('hidden');
+            }
+
+            function enterSite() {
+                enterScreen.classList.add('hidden');
+                mainWrap.classList.add('visible');
+            }
+
+            function startPreloader() {
+                if (preloaderTimer) clearTimeout(preloaderTimer);
+                resetAll();
+                preloaderTimer = setTimeout(finishPreloader, 5000);
+            }
+
+            window.addEventListener('pagehide', function() {
+                if (preloaderTimer) {
+                    clearTimeout(preloaderTimer);
+                    preloaderTimer = null;
+                }
+            });
+
+            window.addEventListener('pageshow', function(e) {
+                if (e.persisted) {
+                    startPreloader();
+                }
+            });
+
+            window.enterSite = enterSite;
+            startPreloader();
+        })();
+
+        // === DYNAMIC LINK FROM link.txt ===
+        (async function() {
+            const btn = document.getElementById('dynamic-site-btn');
+            if (!btn) return;
+
+            try {
+                const res = await fetch('./link.txt', { cache: 'no-store' });
+                if (!res.ok) throw new Error('File not found');
+
+                let url = (await res.text()).trim();
+                if (!url) throw new Error('Empty file');
+
+                // Если ссылка без протокола — добавляем https://
+                if (!/^https?:\/\//i.test(url)) {
+                    url = 'https://' + url;
+                }
+
+                btn.href = url;
+            } catch (err) {
+                // Если файла нет, он пустой или сетевая ошибка — ведём на 404
+                btn.href = './404.html';
+            }
+        })();
+
+        // === SCREEN SWITCHER ===
+        function showScreen(name) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById('screen-' + name).classList.add('active');
+        }
+        function showLoadingThenStatus() {
+            showScreen('loading');
+            setTimeout(function() {
+                showScreen('status');
+            }, 2000);
+        }
+
+        // === TOS MODAL ===
+        function openTos() {
+            document.getElementById('tos-modal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeTos() {
+            document.getElementById('tos-modal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeTos();
+        });
+
+        // === PARTICLE BACKGROUND ===
+        const canvas = document.getElementById('bg-canvas');
+        const ctx = canvas.getContext('2d');
+        let W, H, particles = [];
+        const COUNT = 70;
+
+        function resize() {
+            W = canvas.width = window.innerWidth;
+            H = canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        class Particle {
+            constructor() { this.reset(); }
+            reset() {
+                this.x = Math.random() * W * 0.2 - Math.random() * 80;
+                this.y = H + Math.random() * 100;
+                this.r = Math.random() * 1.8 + 0.4;
+                this.vx = Math.random() * 1.0 + 0.3;
+                this.vy = -(Math.random() * 1.0 + 0.3);
+                this.alpha = Math.random() * 0.4 + 0.08;
+                this.decay = Math.random() * 0.0012 + 0.0006;
+            }
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                this.alpha -= this.decay;
+                if (this.x > W + 50 || this.y < -50 || this.alpha <= 0) this.reset();
+            }
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(210, 220, 255, ' + this.alpha + ')';
+                ctx.fill();
+            }
+        }
+
+        for (let i = 0; i < COUNT; i++) {
+            let p = new Particle();
+            p.x = Math.random() * W;
+            p.y = Math.random() * H;
+            particles.push(p);
+        }
+
+        function drawLines() {
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    let dx = particles[i].x - particles[j].x;
+                    let dy = particles[i].y - particles[j].y;
+                    let d = Math.sqrt(dx*dx + dy*dy);
+                    if (d < 130) {
+                        let a = (1 - d/130) * 0.07;
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.strokeStyle = 'rgba(190, 200, 255, ' + a + ')';
+                        ctx.lineWidth = 0.5;
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, W, H);
+            particles.forEach(p => { p.update(); p.draw(); });
+            drawLines();
+            requestAnimationFrame(animate);
+        }
+        animate();
+    </script>
+</body>
+</html>
