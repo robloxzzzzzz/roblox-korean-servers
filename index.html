@@ -1,0 +1,1103 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#030305">
+<title>CatDevs — Корейские сервера Roblox</title>
+<style>
+@font-face{font-family:SiteFont;src:url('./fonts/ClarisSans.ttf') format('truetype');font-weight:400 800;font-display:swap}
+@font-face{font-family:SiteFont;src:url('./fonts/SchuelerNeuerVerbessertBold.ttf') format('truetype');unicode-range:U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;font-weight:400 800;font-display:swap}
+@font-face{font-family:Oscan;src:url('./fonts/OscanExpanded.ttf') format('truetype');font-display:swap}
+@font-face{font-family:OscanOutline;src:url('./fonts/OscanExpandedOutline.ttf') format('truetype');font-display:swap}
+
+:root{
+ --bg:#030305;--bg2:#08080d;--text:#fff;--muted:#858594;--muted2:#555565;
+ --glass:rgba(255,255,255,.055);--glass2:rgba(255,255,255,.025);
+ --border:rgba(255,255,255,.105);--border2:rgba(255,255,255,.18);
+ --shadow:rgba(0,0,0,.5);--accent:#cbd3ff;--danger:#ff6b6b;
+ --mx:50%;--my:50%;
+ color-scheme:dark;
+}
+html.light{
+ --bg:#f1f2f6;--bg2:#fff;--text:#101116;--muted:#626575;--muted2:#8e91a0;
+ --glass:rgba(255,255,255,.56);--glass2:rgba(255,255,255,.28);
+ --border:rgba(20,22,30,.12);--border2:rgba(20,22,30,.22);--shadow:rgba(30,32,45,.18);
+ --accent:#5263c9; color-scheme:light;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+ font-family:Onest,SiteFont,Arial,sans-serif;background:var(--bg);color:var(--muted);
+ min-height:100vh;overflow-x:hidden;line-height:1.7;cursor:none;
+ transition:background .7s ease,color .7s ease;
+}
+body::before{
+ content:"";position:fixed;inset:0;z-index:-2;pointer-events:none;
+ background:radial-gradient(circle at var(--mx) var(--my),rgba(180,195,255,.075),transparent 25%),
+            radial-gradient(circle at 15% 85%,rgba(120,140,255,.045),transparent 28%);
+ transition:background .15s ease;
+}
+body::after{
+ content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.25;
+ background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
+ background-size:80px 80px;mask-image:linear-gradient(to bottom,black,transparent 75%);
+}
+a,button{font:inherit}
+button{border:0}
+.cursor-dot,.cursor-ring,.cursor-trail{position:fixed;pointer-events:none;z-index:100000;transform:translate(-50%,-50%)}
+.cursor-dot{width:7px;height:7px;border-radius:50%;background:#fff;box-shadow:0 0 8px #fff,0 0 24px rgba(180,195,255,.9)}
+.cursor-ring{width:34px;height:34px;border:1px solid rgba(255,255,255,.45);border-radius:50%;transition:width .25s,height .25s,border-color .25s,background .25s;mix-blend-mode:difference}
+.cursor-ring.hover{width:58px;height:58px;background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.75)}
+.cursor-trail{width:110px;height:110px;border-radius:50%;background:radial-gradient(circle,rgba(170,190,255,.13),transparent 65%);filter:blur(4px);z-index:99998}
+@media(pointer:coarse){body{cursor:auto}.cursor-dot,.cursor-ring,.cursor-trail{display:none}}
+
+#bg-canvas{position:fixed;inset:0;width:100%;height:100%;z-index:1;pointer-events:none;opacity:.95}html.light #bg-canvas{opacity:.72}
+.aurora{position:fixed;inset:-20%;z-index:-4;pointer-events:none;filter:blur(80px);opacity:.28}
+.aurora i{position:absolute;width:38vw;height:38vw;border-radius:50%;background:rgba(100,120,255,.08);animation:aurora 18s ease-in-out infinite alternate}
+.aurora i:nth-child(1){left:5%;top:20%}.aurora i:nth-child(2){right:5%;top:45%;animation-delay:-7s}.aurora i:nth-child(3){left:35%;bottom:0;animation-delay:-12s}
+@keyframes aurora{to{transform:translate(12vw,-8vh) scale(1.25) rotate(25deg)}}
+
+.bg-beam{position:fixed;inset:-30%;z-index:-4;pointer-events:none;background:conic-gradient(from 20deg at 50% 50%,transparent 0 28%,rgba(110,130,255,.035) 34%,transparent 43% 62%,rgba(170,185,255,.025) 69%,transparent 77%);filter:blur(18px);animation:beamDrift 24s linear infinite}.bg-vignette{position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(ellipse at center,transparent 35%,rgba(0,0,0,.28) 100%);opacity:.7}.bg-noise{position:fixed;inset:0;z-index:-2;pointer-events:none;opacity:.035;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.8' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");mix-blend-mode:screen}.float-orb{position:fixed;border-radius:50%;pointer-events:none;z-index:-4;filter:blur(2px);mix-blend-mode:screen}.float-orb.a{width:280px;height:280px;left:-90px;top:30%;background:radial-gradient(circle,rgba(100,125,255,.11),transparent 68%);animation:floatA 14s ease-in-out infinite}.float-orb.b{width:360px;height:360px;right:-130px;top:55%;background:radial-gradient(circle,rgba(190,200,255,.08),transparent 68%);animation:floatB 18s ease-in-out infinite}@keyframes beamDrift{to{transform:rotate(360deg) scale(1.08)}}@keyframes floatA{50%{transform:translate(90px,-80px) scale(1.2)}}@keyframes floatB{50%{transform:translate(-100px,70px) scale(.85)}}
+#preloader,#enter-screen{position:fixed;inset:0;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;background:var(--bg);transition:opacity .8s,visibility .8s}
+#preloader.hidden,#enter-screen.hidden{opacity:0;visibility:hidden;pointer-events:none}
+.preload-logo,.enter-logo{font-family:Onest,SiteFont,Arial,sans-serif;color:var(--text);font-size:clamp(58px,15vw,120px);font-weight:800;letter-spacing:.08em;text-shadow:0 0 70px rgba(180,195,255,.1)}
+.preload-logo{display:flex;gap:.02em}.preload-logo span{opacity:0;transform:translateY(25px) rotateX(-80deg);animation:letterIn .55s cubic-bezier(.2,1,.3,1) forwards}
+@keyframes letterIn{to{opacity:1;transform:none}}
+.preload-wrap{width:min(360px,78vw);margin-top:35px}
+.preload-bar{height:4px;background:rgba(127,127,150,.12);border-radius:10px;overflow:hidden}
+.preload-fill{height:100%;width:0;background:linear-gradient(90deg,transparent,#fff,#9eafff,transparent);animation:load 4.55s cubic-bezier(.2,.75,.2,1) forwards}
+@keyframes load{0%{width:0;opacity:.45}12%{opacity:1}72%{width:78%}92%{width:94%}100%{width:100%;opacity:1}}
+.preload-hint{text-align:center;font-size:12px;color:var(--muted2);margin-top:13px}
+.enter-sub{color:var(--muted);margin-top:-20px;font-size:16px}
+.enter-btn,.lg-btn,.site-btn,.back-btn{
+ color:var(--text);background:linear-gradient(135deg,var(--glass),var(--glass2));
+ border:1px solid var(--border);backdrop-filter:blur(22px) saturate(180%);-webkit-backdrop-filter:blur(22px) saturate(180%);
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 15px 45px var(--shadow);
+ transition:transform .55s cubic-bezier(.16,1,.3,1),border-color .55s,box-shadow .55s,background .7s;
+ position:relative;overflow:hidden;
+}
+.enter-btn{width:min(330px,80vw);padding:18px 22px;border-radius:18px;margin-top:28px;cursor:pointer}
+.enter-btn:hover,.lg-btn:hover,.site-btn:hover,.back-btn:hover{transform:translateY(-5px) scale(1.015);border-color:var(--border2);box-shadow:inset 0 1px 0 rgba(255,255,255,.13),0 22px 60px var(--shadow),0 0 35px rgba(150,170,255,.07)}
+.enter-btn:active,.lg-btn:active,.site-btn:active,.back-btn:active{transform:translateY(-1px) scale(.99)}
+.enter-btn::after,.lg-btn::after,.site-btn::after{content:"";position:absolute;top:0;left:-120%;width:70%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.12),transparent);transform:skewX(-20deg);transition:left .7s}
+.enter-btn:hover::after,.lg-btn:hover::after,.site-btn:hover::after{left:150%}
+
+.site-logo{z-index:20;
+ position:fixed;top:18px;left:18px;z-index:50;text-decoration:none;color:var(--text);
+ display:flex;align-items:center;gap:10px;padding:9px 15px;border-radius:16px;
+ background:var(--glass);border:1px solid var(--border);backdrop-filter:blur(18px);
+ box-shadow:0 10px 35px var(--shadow);transition:.35s;
+}
+.cd-logo{font-family:Onest,SiteFont,Arial,sans-serif;font-weight:900;font-size:24px;line-height:1;letter-spacing:-.06em}
+.logo-name{font-size:14px;font-weight:700;letter-spacing:.08em}
+.site-logo:hover{transform:translateY(-2px) rotate(-1deg);border-color:var(--border2)}
+
+.menu-btn{
+ position:fixed;top:18px;right:18px;z-index:60;width:48px;height:48px;border-radius:15px;
+ color:var(--text);background:var(--glass);border:1px solid var(--border);backdrop-filter:blur(18px);
+ cursor:pointer;display:grid;place-items:center;box-shadow:0 10px 35px var(--shadow);transition:.35s
+}
+.menu-btn:hover{transform:scale(1.08);border-color:var(--border2)}
+.menu-lines{width:20px;display:grid;gap:5px}.menu-lines i{height:2px;background:currentColor;border-radius:3px;transition:.35s}
+.menu-btn.open .menu-lines i:nth-child(1){transform:translateY(7px) rotate(45deg)}.menu-btn.open .menu-lines i:nth-child(2){opacity:0}.menu-btn.open .menu-lines i:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+
+.side-menu{
+ position:fixed;right:18px;top:76px;width:min(310px,calc(100vw - 36px));z-index:55;
+ padding:18px;border-radius:24px;background:color-mix(in srgb,var(--bg2) 72%,transparent);
+ border:1px solid var(--border);backdrop-filter:blur(28px) saturate(180%);box-shadow:0 30px 90px var(--shadow);
+ transform:translateY(-15px) scale(.95);opacity:0;visibility:hidden;transition:.4s cubic-bezier(.2,1,.3,1)
+}
+.side-menu.open{transform:none;opacity:1;visibility:visible}
+.menu-title{font-size:11px;text-transform:uppercase;letter-spacing:.15em;color:var(--muted2);padding:8px 10px}
+.nav-item,.theme-row{
+ width:100%;display:flex;align-items:center;gap:11px;padding:12px 13px;border-radius:14px;color:var(--muted);
+ background:transparent;border:1px solid transparent;text-decoration:none;cursor:pointer;transition:.25s;text-align:left
+}
+.nav-item:hover,.theme-row:hover{color:var(--text);background:var(--glass);border-color:var(--border)}
+.nav-icon{width:24px;text-align:center}.theme-row{justify-content:space-between}
+.theme-left{display:flex;gap:11px;align-items:center}
+.switch{width:42px;height:23px;border-radius:20px;background:var(--muted2);padding:3px;transition:.3s}.switch i{display:block;width:17px;height:17px;border-radius:50%;background:var(--text);transition:.3s}.switch.on{background:#5968cc}.switch.on i{transform:translateX(19px)}
+.menu-divider{height:1px;background:var(--border);margin:10px 4px}
+#sound-toggle{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;padding:10px 10px;border:1px solid transparent;border-radius:15px;background:transparent;color:var(--muted);cursor:pointer;text-align:left;transition:.3s}
+#sound-toggle:hover:not(:disabled){color:var(--text);background:var(--glass);border-color:var(--border)}
+#sound-toggle:disabled{opacity:.38;filter:grayscale(1);cursor:not-allowed;pointer-events:none}
+#sound-toggle .sound-left{display:flex;align-items:center;gap:11px}
+#sound-toggle .sound-icon{width:28px;height:28px;display:grid;place-items:center;border-radius:10px;background:var(--glass);border:1px solid var(--border);font-size:14px}
+#sound-toggle .switch{position:relative;width:42px;height:23px;border-radius:99px;background:var(--glass);border:1px solid var(--border);flex:none}
+#sound-toggle .switch i{position:absolute;top:3px;left:3px;width:15px;height:15px;border-radius:50%;background:var(--muted);transition:.3s}
+#sound-toggle .switch.on{background:#5968cc}#sound-toggle .switch.on i{transform:translateX(19px);background:var(--text)}
+.audio-warning-copy{padding:20px 24px 24px;color:var(--text);font-size:14px;line-height:1.7}
+.audio-warning-copy ul{margin:10px 0;padding-left:22px;color:var(--muted)}
+.audio-warning-copy .audio-warning-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:16px}
+.audio-warning-copy button{border:1px solid var(--border);border-radius:12px;padding:10px 15px;background:var(--glass);color:var(--text);cursor:pointer;font:inherit}
+
+
+.wrap{position:relative;z-index:2;max-width:820px;margin:0 auto;padding:0 24px;opacity:0;transform:translateY(25px);transition:1.35s cubic-bezier(.16,1,.3,1)}
+.wrap.visible{opacity:1;transform:none}
+.hero{text-align:center;padding:135px 0 75px;perspective:1000px;position:relative;isolation:isolate}
+.hero-kicker{display:inline-flex;gap:8px;align-items:center;padding:7px 12px;border:1px solid var(--border);border-radius:99px;background:var(--glass);color:var(--muted);font-size:11px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:18px;box-shadow:0 10px 35px var(--shadow)}
+.hero-kicker b{width:6px;height:6px;border-radius:50%;background:#9cabff;box-shadow:0 0 14px #9cabff}
+.hero h1{font-size:clamp(36px,7vw,62px);font-weight:800;color:var(--text);line-height:1.08;letter-spacing:-.035em;margin-bottom:18px;text-shadow:0 10px 50px var(--shadow);transform:translateZ(30px)}
+.hero p{font-size:17px;color:var(--muted);max-width:550px;margin:auto}
+.hero::after{content:"";display:block;width:90px;height:1px;margin:35px auto 0;background:linear-gradient(90deg,transparent,var(--border2),transparent)}
+
+.glass-card{
+ position:relative;border:1px solid var(--border);border-radius:30px;padding:36px;
+ background:linear-gradient(135deg,var(--glass),var(--glass2));backdrop-filter:blur(25px) saturate(180%);
+ box-shadow:0 30px 90px var(--shadow),inset 0 1px 0 rgba(255,255,255,.09);
+ transform-style:preserve-3d;transition:transform .18s ease-out,box-shadow .4s;
+}
+.glass-card::before{content:"";position:absolute;inset:-1px;border-radius:inherit;background:radial-gradient(circle at var(--card-x,50%) var(--card-y,20%),rgba(255,255,255,.12),transparent 25%);pointer-events:none;opacity:.7}
+.glass-card::after{content:"";position:absolute;inset:1px;border-radius:inherit;pointer-events:none;background:linear-gradient(120deg,rgba(255,255,255,.035),transparent 35%,rgba(150,170,255,.025));}
+.screen{display:none;animation:screenIn .72s cubic-bezier(.16,1,.3,1)}.screen.active{display:block}
+@keyframes screenIn{0%{opacity:0;transform:translateY(24px) scale(.975);filter:blur(5px)}55%{opacity:.85}100%{opacity:1;transform:none;filter:blur(0)}}
+.welcome-text,.content-text{font-size:15.5px;line-height:1.85;color:var(--muted);margin-bottom:28px}.big-white,.ok,.content-text .q{color:var(--text);font-weight:700}.content-text .q{display:block;font-size:1.08em;margin:22px 0 6px}.content-text .q:first-child{margin-top:0}
+.lg-btn{display:block;width:100%;padding:18px 20px;margin:0 0 13px;border-radius:17px;text-align:left;cursor:pointer;color:var(--text);font-weight:600}
+.lg-btn .icon{margin-right:10px}
+.back-btn{padding:11px 20px;border-radius:13px;cursor:pointer;font-size:14px}
+.site-wrap{display:flex;flex-direction:column;align-items:center;gap:13px;margin-top:30px}
+.site-btn{display:inline-flex;align-items:center;gap:8px;padding:14px 24px;border-radius:14px;text-decoration:none;font-size:14px;font-weight:650}
+.site-btn .arrow{transition:.3s}.site-btn:hover .arrow{transform:translateX(5px)}
+.site-btn-new-wrap{position:relative}.new-badge{position:absolute;top:-8px;right:-8px;background:#ff6b6b;color:#fff;font-size:9px;padding:3px 7px;border-radius:99px;font-weight:800;box-shadow:0 5px 20px rgba(255,107,107,.3);z-index:2}
+.site-btn-locked{display:inline-flex;align-items:center;gap:11px;padding:14px 24px;border-radius:14px;color:var(--muted2);background:var(--glass2);border:1px solid var(--border);cursor:not-allowed;opacity:.65;transition:.35s;position:relative}
+.site-btn-locked:hover{color:#ff8585;border-color:rgba(255,107,107,.35);box-shadow:0 0 35px rgba(255,107,107,.1);transform:translateY(-3px)}
+.lock-icon{width:36px;height:36px;filter:drop-shadow(0 0 7px currentColor);transition:.35s}.site-btn-locked:hover .lock-icon{transform:rotate(-8deg) scale(1.12)}
+@keyframes lockShake{0%,100%{transform:translateX(0) rotate(0deg)}10%{transform:translateX(-4px) rotate(-7deg)}20%{transform:translateX(5px) rotate(8deg)}30%{transform:translateX(-6px) rotate(-9deg)}40%{transform:translateX(6px) rotate(9deg)}50%{transform:translateX(-5px) rotate(-7deg)}60%{transform:translateX(4px) rotate(6deg)}70%{transform:translateX(-3px) rotate(-4deg)}80%{transform:translateX(2px) rotate(3deg)}90%{transform:translateX(-1px) rotate(-1deg)}}
+@keyframes lockedButtonShake{0%,100%{transform:translateX(0)}15%{transform:translateX(-2px)}30%{transform:translateX(3px)}45%{transform:translateX(-3px)}60%{transform:translateX(2px)}75%{transform:translateX(-1px)}}
+.site-btn-locked.shaking .lock-icon{animation:lockShake .72s cubic-bezier(.36,.07,.19,.97) both}.site-btn-locked.shaking{animation:lockedButtonShake .72s cubic-bezier(.36,.07,.19,.97) both}
+.loading-wrap{display:grid;place-items:center;padding:48px 0;gap:20px}.spinner{width:64px;height:64px;position:relative}.ring{position:absolute;inset:0;border:2px solid transparent;border-top-color:var(--text);border-radius:50%;animation:spin 1s linear infinite}.ring:nth-child(2){inset:9px;border-top-color:var(--muted);animation-direction:reverse;animation-duration:.75s}.ring:nth-child(3){inset:18px;border-top-color:var(--accent);animation-duration:.5s}@keyframes spin{to{transform:rotate(360deg)}}
+.loading-text{color:var(--muted);animation:pulse 1.5s infinite}@keyframes pulse{50%{opacity:.35}}
+.likee-link{color:#9eafff;text-decoration:none}.likee-link:hover{text-decoration:underline}
+
+.section{padding:80px 0 10px;opacity:0;transform:translateY(55px) scale(.985);filter:blur(4px);transition:opacity 1.15s cubic-bezier(.16,1,.3,1),transform 1.15s cubic-bezier(.16,1,.3,1),filter 1.15s ease}.section.visible{opacity:1;transform:none;filter:blur(0)}
+.section-title{font-size:clamp(29px,5.5vw,38px);font-weight:800;color:var(--text);margin-bottom:25px;letter-spacing:-.025em}
+.step-list{display:grid;gap:15px}.step{display:flex;gap:16px;align-items:flex-start;padding:18px;border:1px solid var(--border);border-radius:19px;background:var(--glass2);transition:.55s cubic-bezier(.16,1,.3,1);transform-style:preserve-3d}.step:hover{transform:translateX(5px) rotateY(-1deg);border-color:var(--border2);background:var(--glass)}
+.step-num{flex:0 0 40px;height:40px;border-radius:12px;display:grid;place-items:center;color:var(--text);font-weight:800;background:var(--glass);border:1px solid var(--border);box-shadow:inset 0 1px rgba(255,255,255,.08)}
+.step-body{padding-top:5px;color:var(--muted);font-size:15px}.step-body strong{color:var(--text)}.tg-link{color:#70baff;text-decoration:none;font-weight:650}.ps-note{font-size:12px;color:var(--muted2);font-style:italic}
+.feature-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.feature-item{min-height:165px;padding:25px;border:1px solid var(--border);border-radius:20px;background:linear-gradient(145deg,var(--glass),var(--glass2));transition:.4s;transform-style:preserve-3d}.feature-item:hover{transform:translateY(-7px) rotateX(2deg) rotateY(-2deg);border-color:var(--border2);box-shadow:0 25px 60px var(--shadow)}.feature-item h3{color:var(--text);font-size:18px;margin-bottom:8px}.feature-item p{font-size:14px;color:var(--muted);line-height:1.65}
+.section-text{color:var(--muted);font-size:16px}.section-text p{margin-bottom:16px}.section-text strong{color:var(--text)}
+.tos-line{text-align:center;margin-top:70px;color:var(--muted2);font-size:12px}.tos-line a{color:var(--muted);text-decoration:underline;cursor:pointer}
+.footer{text-align:center;padding:65px 0 45px;margin-top:60px;border-top:1px solid var(--border);color:var(--muted2);font-size:13px}.brand{color:var(--muted)}
+
+.modal-overlay{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.55);backdrop-filter:blur(12px);display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;visibility:hidden;transition:.35s}.modal-overlay.active{opacity:1;visibility:visible}
+.modal{width:100%;max-width:640px;height:min(82vh,760px);max-height:82vh;min-height:0;overflow:hidden;display:flex;flex-direction:column;border-radius:25px;background:color-mix(in srgb,var(--bg2) 84%,transparent);border:1px solid var(--border);box-shadow:0 35px 120px var(--shadow);transform:translateY(25px) scale(.94) rotateX(3deg);transition:.45s cubic-bezier(.2,1,.3,1)}.modal-overlay.active .modal{transform:none}
+.modal-header{flex:0 0 auto;display:flex;align-items:center;justify-content:space-between;padding:20px 24px;border-bottom:1px solid var(--border)}.modal-header h3{color:var(--text);font-size:17px}.modal-close{width:34px;height:34px;border-radius:10px;background:var(--glass);border:1px solid var(--border);color:var(--muted);cursor:pointer;transition:.25s}.modal-close:hover{color:var(--text);transform:rotate(90deg)}
+.modal-body{flex:1 1 auto;min-height:0;height:auto;padding:20px 24px 25px;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;touch-action:pan-y;isolation:isolate;color:var(--muted);font-size:13.5px;line-height:1.75;scrollbar-gutter:stable}.modal-body h4{color:var(--text);margin:18px 0 7px}.modal-body h4:first-child{margin-top:0}.modal-body p{margin-bottom:9px}.note{padding:12px 14px;border-left:2px solid var(--border2);background:var(--glass);border-radius:0 10px 10px 0}
+.warning-modal-body{text-align:center;padding:30px 28px 38px}.warning-icon-wrap{width:92px;height:92px;margin:0 auto 15px;display:grid;place-items:center;animation:warningFloat 2.5s ease-in-out infinite}.warning-icon-wrap svg{width:100%;filter:drop-shadow(0 0 24px rgba(255,107,107,.35))}@keyframes warningFloat{50%{transform:translateY(-7px) scale(1.04)}}.warning-text{color:var(--muted);font-size:15px}.warning-text strong{color:var(--text)}
+
+.toast{position:fixed;bottom:24px;left:50%;z-index:500;transform:translate(-50%,20px);opacity:0;visibility:hidden;padding:11px 17px;border-radius:13px;background:var(--bg2);border:1px solid var(--border);box-shadow:0 15px 45px var(--shadow);color:var(--text);font-size:13px;transition:.35s}.toast.show{opacity:1;visibility:visible;transform:translate(-50%,0)}
+.ripple{position:absolute;border-radius:50%;transform:scale(0);animation:ripple 1.05s cubic-bezier(.16,1,.3,1);background:rgba(255,255,255,.18);pointer-events:none}@keyframes ripple{to{transform:scale(4);opacity:0}}
+
+/* --- lightweight 3D atmosphere --- */
+.hero-3d{
+ position:absolute;left:50%;top:58px;width:170px;height:170px;
+ transform:translateX(-50%);pointer-events:none;z-index:-1;
+ perspective:900px;opacity:.9;
+}
+.hero-3d .orb{
+ position:absolute;inset:18px;border-radius:50%;
+ background:
+  radial-gradient(circle at 32% 28%,rgba(255,255,255,.92) 0 3%,rgba(190,205,255,.32) 10%,transparent 34%),
+  radial-gradient(circle at 55% 58%,rgba(130,150,255,.22),transparent 62%),
+  linear-gradient(145deg,rgba(255,255,255,.08),rgba(110,125,255,.02));
+ border:1px solid rgba(255,255,255,.12);
+ box-shadow:0 0 45px rgba(145,160,255,.13),inset -22px -18px 45px rgba(0,0,0,.35),inset 12px 10px 30px rgba(255,255,255,.06);
+ transform-style:preserve-3d;
+ animation:orbFloat 7s ease-in-out infinite;
+}
+.hero-3d .ring{
+ position:absolute;inset:2px;border:1px solid rgba(170,185,255,.12);
+ border-radius:50%;transform:rotateX(67deg) rotateZ(18deg);
+ box-shadow:0 0 18px rgba(160,175,255,.08);
+ animation:ringSpin 11s linear infinite;
+}
+.hero-3d .ring.r2{inset:14px;transform:rotateY(65deg) rotateZ(-24deg);animation-duration:14s}
+.hero-3d .dot{
+ position:absolute;width:7px;height:7px;border-radius:50%;background:#fff;
+ box-shadow:0 0 16px rgba(255,255,255,.7);left:20px;top:72px;
+ animation:dotOrbit 5s linear infinite;
+}
+@keyframes orbFloat{50%{transform:translateY(-11px) rotateX(7deg) rotateY(-10deg)}}
+@keyframes ringSpin{to{transform:rotateX(67deg) rotateZ(378deg)}}
+@keyframes dotOrbit{to{transform:rotate(360deg) translateX(58px) rotate(-360deg)}}
+
+.floating-shard{
+ position:absolute;width:18px;height:18px;border:1px solid rgba(255,255,255,.1);
+ background:linear-gradient(135deg,rgba(255,255,255,.1),rgba(120,135,255,.025));
+ transform:rotate(45deg);filter:blur(.1px);pointer-events:none;
+ animation:shardFloat 8s ease-in-out infinite;
+}
+.shard-a{right:8%;top:25%;animation-delay:-2s}
+.shard-b{left:5%;top:48%;width:11px;height:11px;animation-delay:-5s}
+@keyframes shardFloat{50%{transform:translate3d(8px,-18px,0) rotate(135deg);opacity:.55}}
+
+
+/* --- premium navigation --- */
+.side-menu-backdrop{
+ position:fixed;inset:0;z-index:54;background:rgba(0,0,0,.12);
+ backdrop-filter:blur(0);opacity:0;visibility:hidden;pointer-events:none;
+ transition:opacity .55s ease,visibility .55s ease,backdrop-filter .55s ease;
+}
+.side-menu-backdrop.open{opacity:1;visibility:visible;backdrop-filter:blur(5px);pointer-events:auto}
+.side-menu{
+ width:min(330px,calc(100vw - 28px));right:14px;top:78px;padding:12px;
+ border-radius:28px;
+ background:linear-gradient(145deg,color-mix(in srgb,var(--bg2) 82%,transparent),color-mix(in srgb,var(--bg) 78%,transparent));
+ border:1px solid color-mix(in srgb,var(--border2) 75%,transparent);
+ box-shadow:0 35px 100px rgba(0,0,0,.42),inset 0 1px 0 rgba(255,255,255,.09);
+ transform:translateY(-22px) scale(.94) rotateX(-5deg);
+ transform-origin:top right;opacity:0;visibility:hidden;
+ transition:transform .68s cubic-bezier(.16,1,.3,1),opacity .45s ease,visibility .45s;
+}
+.side-menu::before{
+ content:"";position:absolute;inset:1px;border-radius:27px;pointer-events:none;
+ background:radial-gradient(circle at 88% 0%,rgba(155,170,255,.12),transparent 34%),
+ linear-gradient(115deg,rgba(255,255,255,.055),transparent 32%);
+}
+.side-menu::after{
+ content:"";position:absolute;top:-1px;right:34px;width:90px;height:1px;
+ background:linear-gradient(90deg,transparent,rgba(190,205,255,.55),transparent);
+ filter:blur(.4px);pointer-events:none;
+}
+.side-menu.open{transform:translateY(0) scale(1) rotateX(0);opacity:1;visibility:visible}
+.menu-title{position:relative;z-index:1;padding:10px 11px 9px;font-size:10px;letter-spacing:.19em}
+.nav-item,.theme-row{
+ position:relative;z-index:1;overflow:hidden;
+ padding:13px 13px;border-radius:16px;gap:12px;
+ transition:transform .55s cubic-bezier(.16,1,.3,1),background .4s,border-color .4s,color .35s,box-shadow .4s;
+}
+.nav-item::before,.theme-row::before{
+ content:"";position:absolute;inset:0;
+ background:linear-gradient(105deg,rgba(255,255,255,.075),transparent 38%,rgba(145,160,255,.045));
+ opacity:0;transform:translateX(-12px);transition:.5s ease;pointer-events:none;
+}
+.nav-item:hover,.theme-row:hover{
+ transform:translateX(-3px) scale(1.015);
+ box-shadow:0 12px 28px rgba(0,0,0,.12);
+}
+.nav-item:hover::before,.theme-row:hover::before{opacity:1;transform:none}
+.nav-icon{
+ width:28px;height:28px;display:grid;place-items:center;border-radius:10px;
+ background:var(--glass);border:1px solid var(--border);
+ transition:transform .5s cubic-bezier(.16,1,.3,1),background .4s;
+}
+.nav-item:hover .nav-icon{transform:rotate(-6deg) scale(1.08)}
+.side-menu.open .nav-item,.side-menu.open .theme-row{
+ animation:menuItemIn .72s cubic-bezier(.16,1,.3,1) both;
+}
+.side-menu.open .nav-item:nth-of-type(2){animation-delay:.055s}
+.side-menu.open .nav-item:nth-of-type(3){animation-delay:.11s}
+.side-menu.open .nav-item:nth-of-type(4){animation-delay:.165s}
+.side-menu.open .theme-row{animation-delay:.22s}
+@keyframes menuItemIn{
+ from{opacity:0;transform:translateX(22px) scale(.96)}
+ to{opacity:1;transform:none}
+}
+
+/* --- richer micro-interactions --- */
+.glass-card,.feature-card,.step,.site-btn,.lg-btn{
+ overflow:hidden;
+}
+.glass-card::marker{display:none}
+.glass-card::after,.feature-card::after,.step::after,.site-btn::after,.lg-btn::after{
+ content:"";position:absolute;top:-120%;left:-35%;width:35%;height:340%;
+ background:linear-gradient(90deg,transparent,rgba(255,255,255,.055),transparent);
+ transform:rotate(18deg);pointer-events:none;opacity:0;
+ transition:opacity .5s;
+}
+.glass-card:hover::after,.feature-card:hover::after,.step:hover::after,.site-btn:hover::after,.lg-btn:hover::after{
+ opacity:1;animation:softSheen 1.25s cubic-bezier(.16,1,.3,1);
+}
+@keyframes softSheen{
+ from{left:-35%}to{left:125%}
+}
+.feature-card,.step{transition:transform .6s cubic-bezier(.16,1,.3,1),border-color .5s,background .5s,box-shadow .6s}
+.feature-card:hover{transform:translateY(-7px) scale(1.012);box-shadow:0 24px 60px var(--shadow)}
+.step:hover{transform:translateX(7px) translateY(-2px) rotateY(-1.5deg)}
+/* --- cinematic theme transition --- */
+.theme-transition{
+ position:fixed;inset:0;z-index:100000;pointer-events:none;opacity:0;
+ background:radial-gradient(circle at var(--tx,50%) var(--ty,50%),
+   rgba(255,255,255,.98) 0%,rgba(245,247,255,.96) 16%,rgba(220,226,255,.88) 30%,rgba(180,192,255,.45) 48%,transparent 72%);
+ transform:scale(.02);transform-origin:var(--tx,50%) var(--ty,50%);
+ mix-blend-mode:screen;transition:transform .95s cubic-bezier(.16,1,.3,1),opacity .22s ease;
+}
+.theme-transition.play{opacity:1;transform:scale(1.8)}
+.theme-transition.fade{opacity:0;transform:scale(2.2);transition:transform .5s cubic-bezier(.16,1,.3,1),opacity .5s ease .05s}
+html.light .theme-transition{mix-blend-mode:multiply;background:radial-gradient(circle at var(--tx,50%) var(--ty,50%),rgba(255,255,255,.98),rgba(238,242,255,.9) 30%,transparent 70%)}
+.theme-row .theme-symbol{width:28px;height:28px;display:grid;place-items:center;border-radius:10px;background:var(--glass);border:1px solid var(--border);font-size:15px;transition:transform .65s cubic-bezier(.16,1,.3,1),background .4s}
+.theme-row:hover .theme-symbol{transform:rotate(18deg) scale(1.1)}
+.switch{position:relative;box-shadow:inset 0 0 0 1px rgba(255,255,255,.06),0 4px 14px rgba(0,0,0,.12)}
+.switch i{box-shadow:0 2px 8px rgba(0,0,0,.22)}
+.switch.on{box-shadow:0 0 18px rgba(100,115,230,.25)}
+
+/* richer motion */
+.lg-btn,.site-btn,.back-btn,.feature-item,.step{position:relative;isolation:isolate}
+.lg-btn,.site-btn{transition:transform .6s cubic-bezier(.16,1,.3,1),border-color .45s,box-shadow .6s,background .5s}
+.lg-btn:hover{transform:translateY(-5px) scale(1.012)}
+.site-btn:hover{transform:translateY(-4px) scale(1.025)}
+.back-btn:hover{transform:translateX(-5px) scale(1.02)}
+.lg-btn:active,.site-btn:active,.back-btn:active{transform:scale(.975);transition-duration:.12s}
+.hero h1{animation:heroBreath 7s ease-in-out infinite}
+@keyframes heroBreath{0%,100%{transform:translateZ(30px) translateY(0)}50%{transform:translateZ(30px) translateY(-4px)}}
+.hero-kicker{animation:kickerFloat 5s ease-in-out infinite}
+@keyframes kickerFloat{50%{transform:translateY(-3px);box-shadow:0 14px 40px var(--shadow)}}
+.section.visible .step,.section.visible .feature-item{animation:cardReveal .9s cubic-bezier(.16,1,.3,1) both}
+.section.visible .step:nth-child(2),.section.visible .feature-item:nth-child(2){animation-delay:.08s}
+.section.visible .step:nth-child(3),.section.visible .feature-item:nth-child(3){animation-delay:.16s}
+.section.visible .step:nth-child(4),.section.visible .feature-item:nth-child(4){animation-delay:.24s}
+@keyframes cardReveal{from{opacity:0;transform:translateY(20px) scale(.97)}to{opacity:1;transform:none}}
+
+@media(prefers-reduced-motion:reduce){
+ .side-menu.open .nav-item,.side-menu.open .theme-row{animation:none}
+ .glass-card:hover::after,.feature-card:hover::after,.step:hover::after,.site-btn:hover::after,.lg-btn:hover::after{animation:none}
+}
+
+
+.performance-row{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;padding:10px 10px;border:1px solid transparent;border-radius:15px;background:transparent;color:var(--muted);cursor:pointer;text-align:left;transition:.35s}.performance-row:hover{color:var(--text);background:var(--glass);border-color:var(--border)}.performance-left{display:flex;align-items:center;gap:11px}.performance-icon{width:28px;height:28px;display:grid;place-items:center;border-radius:10px;background:var(--glass);border:1px solid var(--border);font-size:14px}.switch{position:relative;width:42px;height:23px;border-radius:99px;background:var(--glass);border:1px solid var(--border);flex:none}.switch i{position:absolute;top:3px;left:3px;width:15px;height:15px;border-radius:50%;background:var(--muted);transition:.4s cubic-bezier(.16,1,.3,1);box-shadow:0 2px 8px var(--shadow)}.switch.on i{transform:translateX(19px);background:var(--text)}
+html.low-power *{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important}html.low-power .cursor-trail{display:none!important}html.low-power #bg-canvas{opacity:.35}html.low-power .hero-3d,html.low-power .floating-shard{display:none!important}html.low-power .section{transition:opacity .35s ease,transform .35s ease,filter .35s ease}
+@media(max-width:650px){
+ .side-menu{right:10px;top:74px;width:calc(100vw - 20px);border-radius:25px}
+}
+
+@media(max-width:650px){
+ .hero-3d{top:72px;width:130px;height:130px;opacity:.7}
+ .hero-3d .orb{inset:14px}
+ .floating-shard{display:none}
+}
+@media(prefers-reduced-motion:reduce){
+ .hero-3d *,.floating-shard{animation:none!important}
+}
+
+@media(max-width:650px){.modal{height:min(86vh,760px);max-height:86vh}.modal-body{padding:18px 18px 24px}.glass-card{padding:24px;border-radius:23px}.feature-grid{grid-template-columns:1fr}.hero{padding-top:110px}.site-logo{z-index:20;top:14px;left:14px;padding:11px 16px;border-radius:18px}.cd-logo{font-size:30px}.menu-btn{top:14px;right:14px;width:54px;height:54px;border-radius:18px}.menu-lines{width:24px}.site-btn,.site-btn-locked{width:100%;justify-content:center}.logo-name{display:none}.section{padding-top:65px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.001ms!important}}
+::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--border2);border-radius:10px}
+
+/* VPN gate and external-link confirmation */
+.vpn-status{width:min(680px,100%);margin:0 auto 18px;padding:12px 16px;border:1px solid var(--border);border-radius:14px;background:var(--glass2);color:var(--muted);font-size:12px;text-align:center;backdrop-filter:blur(16px);transition:all .35s}
+.vpn-status strong{color:var(--text)}.vpn-status[data-state="ok"]{border-color:rgba(100,220,160,.35)}.vpn-status[data-state="blocked"]{border-color:rgba(255,107,107,.35)}.vpn-status[data-state="checking"]{animation:statusPulse 1.4s ease-in-out infinite}
+@keyframes statusPulse{50%{opacity:.6}}
+.confirm-body{text-align:center;padding:26px 28px 30px}.confirm-symbol{font-size:42px;line-height:1.2;margin-bottom:14px;filter:drop-shadow(0 0 22px rgba(160,180,255,.24));animation:warningFloat 2.5s ease-in-out infinite}
+.confirm-title{color:var(--text);font-size:19px;font-weight:750;margin-bottom:8px}.confirm-description{font-size:13px;color:var(--muted);margin-bottom:20px}
+.confirm-disclaimer{font-size:10px;line-height:1.55;color:var(--muted2);opacity:.82;margin:18px auto 0;max-width:420px}
+.confirm-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}.confirm-actions button{cursor:pointer;min-width:135px;padding:11px 17px;border-radius:12px;color:var(--text);border:1px solid var(--border);background:var(--glass);transition:transform .25s,border-color .25s,background .25s}
+.confirm-actions button:hover{transform:translateY(-2px);border-color:var(--border2)}.confirm-actions .confirm-go{background:linear-gradient(135deg,rgba(145,165,255,.22),rgba(255,255,255,.04))}
+.site-btn.vpn-pending{opacity:.65;filter:saturate(.7)}.site-btn.vpn-pending .arrow{animation:arrowPulse 1s infinite alternate}@keyframes arrowPulse{to{transform:translateX(4px);opacity:.55}}
+@media(max-width:520px){.confirm-body{padding:22px 18px 26px}.confirm-actions{flex-direction:column}.confirm-actions button{width:100%}}
+
+
+/* --- CatDevs virtual pet --- */
+#pet-overlay{position:fixed;inset:0;z-index:1500;display:grid;place-items:center;padding:18px;background:rgba(3,5,15,.78);backdrop-filter:blur(18px);opacity:0;visibility:hidden;pointer-events:none;transition:opacity .35s,visibility .35s}
+#pet-overlay.open{opacity:1;visibility:visible;pointer-events:auto}
+.pet-window{position:relative;width:min(1120px,100%);max-height:min(820px,calc(100dvh - 36px));overflow:auto;border:1px solid rgba(133,160,255,.3);border-radius:25px;background:linear-gradient(145deg,rgba(12,17,39,.97),rgba(5,8,20,.97));box-shadow:0 30px 100px #0009,0 0 65px #4d65ff16;padding:24px;color:#eef2ff;transform:translateY(20px) scale(.98);transition:transform .4s cubic-bezier(.2,.8,.2,1)}
+#pet-overlay.open .pet-window{transform:translateY(0) scale(1)}
+.pet-header{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:18px}.pet-heading{margin:0;font-size:clamp(24px,4vw,34px);letter-spacing:-.04em}.pet-subtitle{color:#a8b7e7;font-size:13px;margin-top:6px}.pet-close{width:42px;height:42px;flex:0 0 auto;border-radius:13px;color:#e8edff;background:#ffffff0b;border:1px solid #8ea5ff38;cursor:pointer;font-size:24px;transition:.2s}.pet-close:hover{background:#7c8dff25;transform:rotate(90deg)}
+.pet-layout{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(250px,.8fr);gap:16px}.pet-stage{position:relative;min-height:410px;overflow:hidden;border:1px solid #6c83ff2b;border-radius:20px;background:radial-gradient(ellipse at 50% 64%,#283a86 0%,#111a43 33%,#080d22 73%);isolation:isolate}.pet-stage:before{content:"";position:absolute;width:72%;height:25%;left:14%;bottom:6%;border-radius:50%;background:#738bff24;filter:blur(28px)}.pet-stars{position:absolute;inset:0;opacity:.6;background-image:radial-gradient(circle at 18% 20%,#b5c7ff 0 1px,transparent 2px),radial-gradient(circle at 75% 18%,#8ba7ff 0 1px,transparent 2px),radial-gradient(circle at 86% 44%,#d6dcff 0 1px,transparent 2px),radial-gradient(circle at 25% 64%,#8ba7ff 0 1px,transparent 2px),radial-gradient(circle at 60% 32%,#8ba7ff 0 1px,transparent 2px)}
+#pet-canvas{position:absolute;inset:0;width:100%;height:100%;display:block;z-index:2}.pet-fallback{position:absolute;inset:0;display:none;align-items:center;justify-content:center;flex-direction:column;z-index:2}.pet-fallback .cat-emoji{font-size:clamp(120px,22vw,210px);filter:drop-shadow(0 18px 28px #050817);animation:petBob 3s ease-in-out infinite;transform-style:preserve-3d}.pet-fallback small{color:#aabaff}.pet-floor{position:absolute;bottom:11%;left:15%;right:15%;height:11%;border-radius:50%;background:radial-gradient(ellipse,#8da5ff66,#5367e01b 50%,transparent 72%);filter:blur(5px)}.pet-speech{position:absolute;top:16px;left:16px;z-index:4;padding:9px 12px;border:1px solid #a8baff35;border-radius:13px;background:#080e25b8;color:#dfe7ff;font-size:12px;max-width:70%;box-shadow:0 8px 28px #0002}
+.pet-stats{display:grid;gap:12px;align-content:start}.pet-card{border:1px solid #8298ff26;border-radius:17px;background:linear-gradient(145deg,#ffffff09,#ffffff03);padding:17px}.pet-stat-head{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:13px;margin-bottom:10px}.pet-stat-name{display:flex;align-items:center;gap:9px;font-weight:650}.pet-stat-icon{display:grid;place-items:center;width:34px;height:34px;border-radius:11px;background:#8b9dff18;font-size:18px}.pet-meter{height:9px;background:#ffffff0c;border:1px solid #8ea4ff20;border-radius:20px;overflow:hidden}.pet-meter span{display:block;width:75%;height:100%;border-radius:20px;background:linear-gradient(90deg,#6d6bff,#77c5ff);transition:width .4s}.pet-meter.thirst span{background:linear-gradient(90deg,#29aaff,#7be3ff)}.pet-status{color:#aebce9;font-size:12px;line-height:1.55;margin-top:13px}.pet-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px}.pet-action{min-height:44px;border-radius:13px;border:1px solid #8298ff45;background:linear-gradient(135deg,#566bff2b,#65a9ff0d);color:#f0f3ff;font-weight:650;cursor:pointer;padding:10px;transition:transform .2s,border-color .2s,background .2s}.pet-action:hover{transform:translateY(-2px);border-color:#9bb3ffb0;background:#6d83ff30}.pet-action:active{transform:scale(.98)}.pet-action.water{border-color:#4fcaff48;background:linear-gradient(135deg,#20a8ff28,#64e7ff09)}.pet-food-title{font-weight:700;margin:0 0 12px}.pet-food-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.pet-food{display:flex;align-items:center;flex-direction:column;gap:5px;padding:11px 5px;border-radius:13px;border:1px solid #8298ff25;background:#ffffff05;color:#eef2ff;cursor:pointer;transition:.2s;min-width:0}.pet-food:hover{transform:translateY(-2px);border-color:#8da4ff91;background:#7188ff17}.pet-food:disabled{opacity:.4;cursor:not-allowed;transform:none}.pet-food .food-emoji{font-size:25px}.pet-food strong{font-size:11px}.pet-food small{font-size:10px;color:#aebce9}.pet-note{font-size:11px;color:#8192c7;line-height:1.55;margin:11px 0 0}.pet-toast{position:fixed;bottom:24px;left:50%;z-index:1600;transform:translate(-50%,18px);opacity:0;pointer-events:none;padding:11px 16px;border:1px solid #92a8ff55;border-radius:14px;background:#0a1028f2;color:#f1f4ff;box-shadow:0 10px 35px #0005;transition:.25s;font-size:13px;text-align:center;max-width:calc(100vw - 30px)}.pet-toast.show{opacity:1;transform:translate(-50%,0)}@keyframes petBob{0%,100%{transform:translateY(0) rotateY(-7deg)}50%{transform:translateY(-9px) rotateY(7deg)}}
+@media(max-width:760px){#pet-overlay{padding:8px}.pet-window{padding:16px;border-radius:19px;max-height:calc(100dvh - 16px)}.pet-layout{grid-template-columns:1fr}.pet-stage{min-height:300px}.pet-stats{grid-template-columns:1fr}.pet-food-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.pet-header{margin-bottom:13px}}
+@media(prefers-reduced-motion:reduce){#pet-overlay,.pet-window,.pet-fallback .cat-emoji,.pet-action,.pet-food{transition:none;animation:none}}
+
+/* CatDevs interaction effects: purring hearts and small secret discoveries */
+.pet-heart-layer{position:absolute;inset:0;z-index:6;pointer-events:none;overflow:hidden}
+.pet-heart{position:absolute;bottom:28%;font-size:clamp(18px,3vw,30px);filter:drop-shadow(0 0 10px #ff8bc8aa);animation:heartFloat 2.1s ease-out forwards}
+@keyframes heartFloat{0%{opacity:0;transform:translate3d(0,10px,0) scale(.55) rotate(-12deg)}15%{opacity:1}100%{opacity:0;transform:translate3d(var(--drift,12px),-180px,0) scale(1.2) rotate(15deg)}}
+#vpn-block-modal .vpn-help-link{color:#9eb7ff;text-decoration:underline;text-underline-offset:3px;font-weight:750}
+#vpn-block-modal .vpn-help-link:hover{color:#fff}
+#vpn-block-modal .vpn-modal-actions{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:18px}
+#vpn-block-modal .vpn-modal-actions button{border:1px solid #879cff55;border-radius:12px;padding:10px 15px;background:#ffffff0d;color:#f3f5ff;cursor:pointer;font:inherit}
+#vpn-block-modal .vpn-modal-actions .vpn-retry{background:linear-gradient(135deg,#586eff,#7d8bff);border-color:transparent}
+.easter-pop{position:fixed;z-index:1800;left:50%;top:18%;transform:translate(-50%,-12px) scale(.85);opacity:0;pointer-events:none;font-size:clamp(28px,7vw,60px);filter:drop-shadow(0 0 20px #ff8bc8);transition:opacity .25s,transform .35s cubic-bezier(.2,.8,.2,1)}
+.easter-pop.show{opacity:1;transform:translate(-50%,0) scale(1)}
+
+
+html.cat-secret-mode .pet-stage{box-shadow:0 0 45px #ff70c766,inset 0 0 45px #ff70c722}html.cat-secret-mode .site-logo{filter:drop-shadow(0 0 16px #ff70c7)}
+</style>
+</head>
+<body>
+<div class="aurora"><i></i><i></i><i></i></div><div class="bg-beam"></div><div class="float-orb a"></div><div class="float-orb b"></div><div class="bg-noise"></div><div class="bg-vignette"></div>
+<canvas id="bg-canvas"></canvas>
+<div class="cursor-trail" id="cursor-trail"></div><div class="cursor-ring" id="cursor-ring"></div><div class="cursor-dot" id="cursor-dot"></div>
+
+<a href="./index.html" class="site-logo"><span class="cd-logo">CD</span><span class="logo-name">CATDEVS</span></a>
+<button class="menu-btn" id="menu-btn" aria-label="Меню"><span class="menu-lines"><i></i><i></i><i></i></span></button>
+
+<aside class="side-menu" id="side-menu">
+ <div class="menu-title">Навигация</div>
+ <a class="nav-item" href="#home"><span class="nav-icon">⌂</span>Главная</a>
+ <a class="nav-item" href="#godly"><span class="nav-icon">◆</span>Как получить Godly</a>
+ <a class="nav-item" href="#servers"><span class="nav-icon">◈</span>Корейские сервера</a>
+ <a class="nav-item" href="#about"><span class="nav-icon">i</span>О проекте</a>
+ <a class="nav-item" href="#features"><span class="nav-icon">✦</span>Преимущества</a>
+ <a class="nav-item" href="#pet" id="pet-nav-link"><span class="nav-icon">🐾</span>Питомец</a>
+ <div class="menu-divider"></div>
+ <div class="menu-title">Настройки</div>
+ <button class="theme-row" id="theme-toggle"><span class="theme-left"><span class="theme-symbol" id="theme-symbol">☾</span><span id="theme-label">Тёмная тема</span></span><span class="switch" id="theme-switch"><i></i></span></button>
+ <button class="performance-row" id="performance-toggle"><span class="performance-left"><span class="performance-icon">⚡</span><span><strong id="performance-label">Для слабых устройств</strong></span></span><span class="switch" id="performance-switch"><i></i></span></button>
+ <button id="sound-toggle" type="button" aria-pressed="true" disabled title="Звуковые файлы ещё проверяются"><span class="sound-left"><span class="sound-icon">🔊</span><span><strong id="sound-label">Звуки: проверка…</strong></span></span><span class="switch" id="sound-switch"><i></i></span></button>
+</aside>
+<div class="side-menu-backdrop" id="side-menu-backdrop"></div>
+<div class="theme-transition" id="theme-transition"></div>
+
+<div id="pet-overlay" aria-hidden="true">
+ <div class="pet-window" role="dialog" aria-modal="true" aria-labelledby="pet-heading">
+  <div class="pet-header"><div><h2 class="pet-heading" id="pet-heading">Твой питомец</h2><div class="pet-subtitle">Заботься о котике — он запоминает, когда ты возвращаешься.</div></div><button class="pet-close" id="pet-close" aria-label="Закрыть питомца">×</button></div>
+  <div class="pet-layout">
+   <div class="pet-stage" id="pet-stage"><div class="pet-stars"></div><div class="pet-heart-layer" id="pet-heart-layer" aria-hidden="true"></div><div class="pet-speech" id="pet-speech">Мяу! Я рад тебя видеть 🐾</div><div class="pet-floor"></div><canvas id="pet-canvas" aria-label="Трёхмерный котик, который следит за курсором"></canvas><div class="pet-fallback" id="pet-fallback"><div class="cat-emoji">🐈</div><small>Твой котик ждёт заботы</small></div></div>
+   <div class="pet-stats">
+    <div class="pet-card"><div class="pet-stat-head"><span class="pet-stat-name"><span class="pet-stat-icon">🍗</span>Голод</span><strong id="pet-hunger-label">82%</strong></div><div class="pet-meter"><span id="pet-hunger-bar"></span></div><div class="pet-stat-head" style="margin-top:15px"><span class="pet-stat-name"><span class="pet-stat-icon">💧</span>Жажда</span><strong id="pet-thirst-label">88%</strong></div><div class="pet-meter thirst"><span id="pet-thirst-bar"></span></div><div class="pet-status" id="pet-mood">Котик доволен и ждёт твоей заботы.</div></div>
+    <div class="pet-card" id="pet-food-panel"><h3 class="pet-food-title">🍽️ Выбери еду</h3><div class="pet-food-grid">
+     <button class="pet-food" data-food="kibble"><span class="food-emoji">🥣</span><strong>Корм</strong><small>+25 сытости</small></button>
+     <button class="pet-food" data-food="fish"><span class="food-emoji">🐟</span><strong>Рыбка</strong><small>+35 сытости</small></button>
+     <button class="pet-food" data-food="chicken"><span class="food-emoji">🍗</span><strong>Курица</strong><small>+30 сытости</small></button>
+    </div><p class="pet-note">Меню еды доступно, только пока открыта вкладка «Питомец».</p></div>
+    <div class="pet-actions"><button class="pet-action" id="pet-feed-btn">🍽️ Покормить</button><button class="pet-action water" id="pet-water-btn">💧 Наполнить воду</button></div>
+    <div class="pet-card"><div class="pet-stat-name">🐾 О питомце</div><div class="pet-status">Голод и жажда постепенно уменьшаются даже когда ты не на сайте. Прогресс сохраняется на этом устройстве.</div></div>
+   </div>
+  </div>
+ </div>
+</div><div class="pet-toast" id="pet-toast" role="status" aria-live="polite"></div>
+
+<div id="preloader">
+ <div class="preload-logo"><span style="animation-delay:0s">C</span><span style="animation-delay:.1s">A</span><span style="animation-delay:.2s">T</span><span style="animation-delay:.3s">D</span><span style="animation-delay:.4s">E</span><span style="animation-delay:.5s">V</span><span style="animation-delay:.6s">S</span></div>
+ <div class="preload-wrap"><div class="preload-bar"><div class="preload-fill"></div></div><div class="preload-hint">Загрузка ресурсов...</div></div>
+</div>
+<div id="enter-screen" class="hidden">
+ <div class="enter-logo">CatDevs</div><div class="enter-sub">Корейские сервера Roblox</div>
+ <button class="enter-btn" onclick="enterSite()">→ &nbsp; Войти на сайт</button>
+</div>
+
+<main class="wrap" id="main-wrap">
+<section class="hero" id="home">
+ <div class="hero-3d" aria-hidden="true">
+  <div class="orb"></div>
+  <div class="ring"></div>
+  <div class="ring r2"></div>
+  <div class="dot"></div>
+ </div>
+ <i class="floating-shard shard-a" aria-hidden="true"></i>
+ <i class="floating-shard shard-b" aria-hidden="true"></i>
+ <div class="hero-kicker"><b></b> CATDEVS • ROBLOX</div>
+ <h1>Корейские сервера<br>в Roblox</h1>
+ <p>Простой способ попасть на корейские сервера Roblox — красиво, быстро и без лишней суеты.</p>
+</section>
+
+<section class="glass-card" id="panel">
+ <div id="screen-main" class="screen active">
+  <div class="welcome-text">Добро пожаловать в бота для использования корейских серверов в <span class="big-white">Roblox</span>. Здесь вы можете проверить состояние бота <span class="big-white">MysteryTwoTrustBot</span>, узнать ответы на частые вопросы и написать в поддержку.</div>
+  <button class="lg-btn" onclick="showLoadingThenStatus()"><span class="icon">⚡</span> Проверить состояние бота</button>
+  <button class="lg-btn" onclick="showScreen('faq')"><span class="icon">❔</span> Узнать ответы на частые вопросы</button>
+  <button class="lg-btn" onclick="showScreen('support')"><span class="icon">❗</span> Написать в поддержку</button>
+ </div>
+ <div id="screen-loading" class="screen"><div class="loading-wrap"><div class="spinner"><div class="ring"></div><div class="ring"></div><div class="ring"></div></div><p class="loading-text">Проверяем состояние бота...</p></div></div>
+ <div id="screen-status" class="screen"><div class="content-text"><span class="ok">⚠ Бот временно отключён.</span><br><br>Запуск временно недоступен. Следите за обновлениями в нашем Likee:<br>👉 <a href="https://likee.video/@mmm2trusttradeSs" target="_blank" class="likee-link">@mmm2trusttradeSs</a></div><button class="back-btn" onclick="showScreen('main')">◀ Назад</button></div>
+ <div id="screen-faq" class="screen"><div class="content-text">
+  <span class="q">1. Наши сервисы безопасны?</span>Да, наши сервисы безопасны. По дополнительным вопросам обратитесь в поддержку.
+  <span class="q">2. Сайт использует куки?</span>Нет, сайт не использует cookies для работы с пользовательскими данными. Можете не беспокоиться насчёт вашей приватности.
+  <span class="q">3. Почему бот запускается так редко?</span>Для бота нужен сервер. Его содержание требует ресурсов, поэтому запуск может быть ограничен.
+  <span class="q">4. Почему бот принимает именно Godly либо Ancient?</span>Нам невыгодно отдавать редкие предметы за Common. Такой подход помогает сохранять доступность предметов для других пользователей.
+  <span class="q">5. Будут ли новые проекты от CatDevs?</span>Конечно! Новые проекты и идеи постепенно появляются.
+  <span class="q">6. Почему бесплатно?</span>Наш сервис бесплатный. В будущем на сайте могут появляться способы монетизации, которые помогут поддерживать проект.
+ </div><button class="back-btn" onclick="showScreen('main')">◀ Назад</button></div>
+ <div id="screen-support" class="screen"><div class="content-text">🐈‍⬛ Чтобы написать в поддержку, используйте сообщения нашего канала. Это бесплатно и помогает сохранять приватность участников. 🐈</div><button class="back-btn" onclick="showScreen('main')">◀ Назад</button></div>
+</section>
+
+<section class="site-wrap" aria-label="Сервера">
+ <div class="vpn-status" id="vpn-status" data-state="checking" role="status" aria-live="polite"><strong>Проверка VPN…</strong> Ссылки серверов будут доступны после проверки подключения.</div>
+ <a href="./404.html" class="site-btn" id="dynamic-site-btn">Перейти на Корейский сервер "Adopt me!" <span class="arrow">→</span></a>
+ <a href="./404.html" class="site-btn vpn-pending" id="dynamic-site-btn-2" aria-label="Перейти на корейский сервер Murder Mystery 2">Перейти на Корейский сервер Murder Mystery 2 <span class="arrow">→</span></a>
+ <div class="site-btn-new-wrap"><span class="new-badge">Новинка!</span><a href="./404.html" class="site-btn" id="dynamic-site-btn-3">Перейти на Корейский сервер Steal A Brainrot <span class="arrow">→</span></a></div>
+</section>
+
+<section class="section" id="godly"><h2 class="section-title">Как получить Godly</h2><div class="step-list">
+ <div class="step"><div class="step-num">1</div><div class="step-body">Заходим в <strong>Roblox</strong> и отправляем запрос в друзья <strong>MysteryTwoTrustBot</strong>.</div></div>
+ <div class="step"><div class="step-num">2</div><div class="step-body">Ждём запуска бота и заходим в <strong>Murder Mystery 2</strong>. Можно отправить боту <strong>Invite</strong>.</div></div>
+ <div class="step"><div class="step-num">3</div><div class="step-body">Проводим <strong>"Trust Trade"</strong>.</div></div>
+ <div class="step"><div class="step-num">4</div><div class="step-body">Получаем <strong>Godly</strong> в подарок.</div></div>
+</div></section>
+
+<section class="section" id="servers"><h2 class="section-title">Как зайти на корейские сервера</h2><div class="step-list">
+ <div class="step"><div class="step-num">1</div><div class="step-body">Подписываемся на ✈ <a href="https://t.me/KoreanServersRobloxCatdev" target="_blank" class="tg-link">@KoreanServersRobloxCatdev</a>.</div></div>
+ <div class="step"><div class="step-num">2</div><div class="step-body">Следуем инструкции и заходим на сайт.</div></div>
+ <div class="step"><div class="step-num">3</div><div class="step-body">Если <strong>LootLabs</strong> уже добавили — проходим. <span class="ps-note">Если нет — пропустите этот шаг :)</span></div></div>
+ <div class="step"><div class="step-num">4</div><div class="step-body">Заходим на корейский сервер и радуемся! Могут быть очереди — нужно быть терпеливыми.</div></div>
+</div></section>
+
+<section class="section" id="about"><h2 class="section-title">О проекте</h2><div class="section-text">
+ <p>CatDevs — команда энтузиастов, которая создаёт инструменты для сообщества Roblox. Наш основной проект помогает игрокам попадать на корейские сервера.</p>
+ <p>Мы стремимся делать доступ к нашим инструментам простым, понятным и максимально прозрачным.</p>
+</div></section>
+
+<section class="section" id="features"><h2 class="section-title">Преимущества</h2><div class="feature-grid">
+ <div class="feature-item"><h3>🚀 Быстрый доступ</h3><p>Заходите на корейские сервера без сложных настроек и лишних действий.</p></div>
+ <div class="feature-item"><h3>🔒 Безопасность</h3><p>Мы не запрашиваем пароли и не храним ваши данные.</p></div>
+ <div class="feature-item"><h3>💎 Godly & Ancient</h3><p>Бот ориентирован на редкие предметы, поддерживая понятные правила обмена.</p></div>
+ <div class="feature-item"><h3>🆓 Бесплатно</h3><p>Основной сервис предоставляется бесплатно. Поддержать CatDevs можно подпиской.</p></div>
+</div></section>
+
+<div class="tos-line">Продолжая пользоваться нашими услугами, вы соглашаетесь<br>с <a onclick="openTos()">пользовательским соглашением</a>.</div>
+<footer class="footer"><p>Разработано командой <span class="brand">CatDevs</span>. Все права защищены.</p></footer>
+</main>
+
+<div class="modal-overlay" id="tos-modal" onclick="if(event.target===this)closeTos()"><div class="modal">
+ <div class="modal-header"><h3>Пользовательское соглашение</h3><button class="modal-close" onclick="closeTos()">✕</button></div>
+ <div class="modal-body"><h4>1. Общие положения</h4><p>1.1. Настоящее Пользовательское соглашение регулирует порядок использования сайта CatDevs, его страниц, интерактивных элементов, информационных материалов, ботов, ссылок и связанных с ними функций.</p><p>1.2. Используя сайт, открывая его страницы, нажимая кнопки, просматривая материалы или переходя по размещённым ссылкам, Пользователь подтверждает, что ознакомился с настоящим документом и принимает его условия.</p><p>1.3. Если Пользователь не согласен с каким-либо положением настоящего документа, ему следует прекратить использование сайта и связанных с ним сервисов.</p><p>1.4. Сайт является информационной площадкой проекта CatDevs и может содержать ссылки на сторонние сервисы, платформы и игровые ресурсы.</p><h4>2. Термины и определения</h4><p>2.1. «Сайт» — веб-ресурс CatDevs, включая страницы, интерфейс, визуальные элементы и опубликованные материалы.</p><p>2.2. «Сервис» — доступные через сайт функции, материалы, переходы, инструкции и иные возможности проекта.</p><p>2.3. «Пользователь» — любое лицо, открывающее или использующее сайт.</p><p>2.4. «Сторонняя платформа» — Roblox, Telegram, Likee, внешние сайты, серверы и иные ресурсы, не принадлежащие CatDevs.</p><h4>3. Использование сайта</h4><p>3.1. Пользователь обязуется использовать сайт только в законных целях и не предпринимать действий, направленных на нарушение его нормальной работы.</p><p>3.2. Запрещается намеренно создавать чрезмерную нагрузку, пытаться получить несанкционированный доступ к серверной части, изменять опубликованные материалы без разрешения или использовать технические уязвимости во вред проекту.</p><p>3.3. Отдельные функции могут временно отсутствовать, изменяться, отключаться или заменяться без предварительного уведомления.</p><p>3.4. Сведения на сайте могут обновляться не одновременно с изменениями на сторонних платформах.</p><h4>4. Игровые операции и виртуальные предметы</h4><p>4.1. Любые действия внутри Roblox, Murder Mystery 2, Adopt Me!, Steal A Brainrot и других режимов выполняются Пользователем самостоятельно.</p><p>4.2. Пользователь самостоятельно принимает решение о совершении обменов, передач, Trust Trade и любых иных игровых операций.</p><p>4.3. CatDevs не обещает, что конкретный игровой предмет, награда или обмен обязательно будут получены, завершены или сохранены.</p><p>4.4. Передача виртуальных предметов может зависеть от состояния игры, аккаунта, сервера, соединения и правил соответствующей платформы.</p><p>4.5. Пользователь обязан внимательно проверять предметы, условия и получателя перед подтверждением операции.</p><h4>5. Боты и автоматизированные функции</h4><p>5.1. Доступность бота не гарантируется круглосуточно. Бот может быть отключён для технических работ, обновления, отсутствия необходимого сервера или по иным причинам.</p><p>5.2. Информация о состоянии бота на сайте носит информационный характер и может не отражать состояние системы в конкретную секунду.</p><p>5.3. Время запуска, длительность работы, количество пользователей и доступность функций могут изменяться.</p><p>5.4. Наличие кнопки или ссылки не является безусловной гарантией доступности функции.</p><h4>6. Сторонние ресурсы</h4><p>6.1. Сайт может содержать ссылки на внешние домены и платформы. После перехода Пользователь взаимодействует с соответствующим сторонним ресурсом.</p><p>6.2. CatDevs не контролирует содержимое, правила, безопасность, доступность и политику конфиденциальности сторонних ресурсов.</p><div class="note">Перед вводом пароля, токена, кода подтверждения или иной чувствительной информации всегда самостоятельно проверяйте адрес страницы и домен. Никому не передавайте данные аккаунта только потому, что ссылка размещена на стороннем ресурсе.</div><p>6.3. Внешние ссылки могут измениться, перестать работать или начать вести на другой ресурс.</p><h4>7. Безопасность и аккаунты</h4><p>7.1. CatDevs не запрашивает пароль от Roblox или иных личных аккаунтов через интерфейс сайта.</p><p>7.2. Пользователь самостоятельно отвечает за сохранность паролей, кодов подтверждения, cookies, токенов и иных средств доступа.</p><p>7.3. Если сторонний сайт запрашивает неожиданные данные, рекомендуется прекратить действие и проверить адрес страницы.</p><p>7.4. CatDevs не может гарантировать отсутствие вредоносного содержимого на каждом стороннем ресурсе.</p><h4>8. Ограничение ответственности</h4><p>8.1. Сервисы предоставляются по принципу «как есть» и «по мере доступности».</p><p>8.2. Администрация и разработчики не гарантируют бесперебойную работу сайта, ботов, внешних API, игровых серверов, Telegram, Likee, Roblox или иных сторонних систем.</p><p>8.3. Администрация не несёт ответственности за потерю игровых предметов, блокировку аккаунта, ограничения доступа, задержки, сбои соединения или действия модерации сторонних платформ.</p><p>8.4. Результат использования стороннего сервиса может зависеть от обстоятельств вне контроля CatDevs.</p><h4>9. Информационные материалы</h4><p>9.1. Инструкции и пояснения предназначены для общего ознакомления.</p><p>9.2. Отдельные сведения могут устаревать после обновлений Roblox, игровых режимов, браузеров или сторонних сервисов.</p><p>9.3. Перед выполнением важного действия Пользователь самостоятельно проверяет актуальность инструкции.</p><h4>10. Реклама и монетизация</h4><p>10.1. В будущем на сайте могут появляться рекламные, партнёрские или иные способы поддержки проекта.</p><p>10.2. Наличие рекламного материала не означает, что CatDevs гарантирует качество или безопасность товара или услуги рекламодателя.</p><p>10.3. Любые действия на стороннем рекламном ресурсе Пользователь совершает самостоятельно.</p><h4>11. Изменение соглашения</h4><p>11.1. Администрация может изменять соглашение, структуру сайта, дизайн, функции и тексты без предварительного персонального уведомления.</p><p>11.2. Новая редакция вступает в силу с момента публикации, если в ней не указано иное.</p><p>11.3. Продолжение использования сайта после публикации новой редакции означает принятие обновлённых условий.</p><h4>12. Заключительные положения</h4><p>12.1. Если отдельное положение окажется недействительным, остальные положения продолжают действовать.</p><p>12.2. Пользователь самостоятельно оценивает возможные последствия использования сайта и связанных сервисов.</p><p>12.3. Сайт может изменяться, расширяться и дополняться новыми разделами.</p><p>12.4. Настоящий документ является частью информационного интерфейса CatDevs и объясняет общие условия использования ресурса.</p><h4>13. Дополнительное уведомление</h4><p>13.1. Никакой текст на сайте не следует воспринимать как обещание конкретного результата в Roblox или другой платформе.</p><p>13.2. Пользователь должен сохранять осторожность при работе с игровыми обменами, ссылками, аккаунтами и сторонними сервисами.</p><p>13.3. При сомнениях относительно безопасности операции рекомендуется не продолжать её до выяснения обстоятельств.</p><p>13.4. Используя сайт после ознакомления с настоящим документом, Пользователь подтверждает, что понимает информационный характер возможностей и принимает описанные ограничения.</p>
+<h4>14. Конфиденциальность и проверка VPN</h4>
+<p>14.1. CatDevs не запрашивает имя, электронную почту, пароль или другие данные для идентификации Пользователя, не использует аналитические счётчики и не устанавливает cookies для отслеживания. Настройки оформления (тема и режим производительности) могут сохраняться только локально в браузере Пользователя.</p>
+<p>14.2. Для проверки, используется ли VPN или прокси, браузер отправляет запрос стороннему сервису определения VPN (ProxyCheck.io). При таком запросе сервис может получить публичный IP-адрес Пользователя и технические данные запроса. Это необходимо для определения типа подключения.</p>
+<p>14.3. Проверка выполняется в браузере. Сайт CatDevs не отправляет полученный результат проверки на собственный сервер и не сохраняет его. Как и при обычном посещении любого сайта, хостинг-провайдер может обрабатывать технические журналы запросов. CatDevs не управляет журналами стороннего VPN-провайдера и не может гарантировать его порядок обработки или сроки хранения данных — к нему применяется собственная политика конфиденциальности.</p>
+<p>14.4. Проверка не является абсолютно точной: VPN, прокси или отдельные виды сетевого подключения могут быть определены неверно. Если сервис проверки недоступен, сайт предупредит Пользователя о необходимости включить VPN и позволит продолжить переход только после отдельного подтверждения. Это предупреждение не означает, что VPN действительно включён.</p>
+<p>14.5. После перехода на сторонние сайты их операторы могут собирать и обрабатывать сведения в соответствии со своими правилами. За пределами catdev.fun действуют условия и политика конфиденциальности соответствующего ресурса.</p></div>
+ </div>
+</div></div>
+
+<div class="modal-overlay" id="external-confirm-modal" onclick="if(event.target===this)closeExternalConfirm()"><div class="modal" style="max-width:480px;height:auto;max-height:86vh">
+ <div class="modal-header"><h3>Подтверждение перехода</h3><button class="modal-close" onclick="closeExternalConfirm()" aria-label="Закрыть">✕</button></div>
+ <div class="confirm-body"><div class="confirm-symbol" aria-hidden="true">↗</div><div class="confirm-title">Вы покидаете CatDevs</div>
+ <p class="confirm-description">Сейчас вы перейдёте на сторонний ресурс. Перед продолжением убедитесь, что доверяете сайту назначения.</p>
+ <div class="confirm-actions"><button type="button" onclick="closeExternalConfirm()">Отмена</button><button type="button" class="confirm-go" id="external-confirm-go">Продолжить →</button></div>
+ <p class="confirm-disclaimer">Переходя по ссылке и выходя за пределы сайта catdev.fun вы берёте на себя всю ответственность и принимаете условия использования, пользовательское соглашение.</p>
+ </div></div></div>
+<div class="modal-overlay" id="warning-modal" onclick="if(event.target===this)closeWarningModal()"><div class="modal" style="max-width:430px">
+ <div class="modal-header" style="border-bottom:0;padding-bottom:0"><h3 style="opacity:0">.</h3><button class="modal-close" onclick="closeWarningModal()">✕</button></div>
+ <div class="warning-modal-body"><div class="warning-icon-wrap"><svg viewBox="0 0 64 64" fill="none"><path d="M32 6L58 54H6L32 6Z" stroke="#ff6b6b" stroke-width="2.5" stroke-linejoin="round"/><path d="M32 23v15" stroke="#ff6b6b" stroke-width="4" stroke-linecap="round"/><circle cx="32" cy="46" r="2.5" fill="#ff6b6b"/></svg></div><p class="warning-text"><strong>Сервер временно недоступен.</strong><br>Мы уже работаем над этой проблемой!</p></div>
+</div></div>
+<div class="modal-overlay" id="audio-warning-modal" role="dialog" aria-modal="true" aria-labelledby="audio-warning-title" onclick="if(event.target===this)closeAudioWarning()"><div class="modal" style="max-width:500px;height:auto;max-height:86vh"><div class="modal-header"><h3 id="audio-warning-title">🔇 Не все звуки загрузились</h3><button class="modal-close" type="button" onclick="closeAudioWarning()" aria-label="Закрыть">✕</button></div><div class="audio-warning-copy"><p>Некоторые аудиофайлы не удалось загрузить. Это может сказаться на комфорте: фоновая музыка, мяуканье или другие звуковые эффекты могут отсутствовать.</p><p id="audio-warning-details"></p><ul id="audio-missing-list"></ul><p>Проверь, что MP3-файлы загружены в папку <code>Sounds</code> рядом с <code>index.html</code>, а их имена совпадают с указанными в инструкции. После исправления обнови страницу.</p><div class="audio-warning-actions"><button type="button" onclick="closeAudioWarning()">Понятно</button></div></div></div></div>
+<div class="modal-overlay" id="vpn-block-modal" role="dialog" aria-modal="true" aria-labelledby="vpn-block-title" onclick="if(event.target===this)closeVpnBlockModal()"><div class="modal" style="max-width:470px;height:auto;max-height:86vh"><div class="modal-header"><h3 id="vpn-block-title">🔒 Проверка VPN</h3><button class="modal-close" type="button" onclick="closeVpnBlockModal()" aria-label="Закрыть">✕</button></div><div style="padding:20px 24px 24px;text-align:center"><p id="vpn-block-message" style="line-height:1.75;margin:0">У вас выключен VPN, ссылки заблокированы. Пожалуйста, используйте любой рабочий сервис или воспользуйтесь <a class="vpn-help-link" href="https://t.me/antizhalostinet_bot?start=4777853041" target="_blank" rel="noopener noreferrer">этим</a>.</p><div class="vpn-modal-actions"><button type="button" class="vpn-retry" id="vpn-block-retry">Повторить проверку</button><button type="button" id="vpn-fallback-go" hidden>Продолжить на свой риск</button><button type="button" onclick="closeVpnBlockModal()">Закрыть</button></div></div></div></div>
+<div class="easter-pop" id="easter-pop" aria-hidden="true">🐈‍⬛💖✨</div>
+<div class="toast" id="toast"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+const $=s=>document.querySelector(s), $$=s=>document.querySelectorAll(s);
+
+// Audio assets live in ./Sounds/ in the GitHub Pages publish root.
+// Browsers may require a user gesture before playback; file loading is checked separately.
+const CatAudio = (() => {
+ const definitions = {
+  bg: {src:'./Sounds/Фоновая%20музыка.mp3', label:'Фоновая музыка.mp3'},
+  meow: {src:'./Sounds/Мяу.mp3', label:'Мяу.mp3'},
+  purr: {src:'./Sounds/Мурчание.mp3', label:'Мурчание.mp3'},
+  error: {src:'./Sounds/Ошибка.mp3', label:'Ошибка.mp3'},
+  success: {src:'./Sounds/Успех.mp3', label:'Успех.mp3'}
+ };
+ const tracks={};
+ const states={};
+ let bgStarted=false, enabled=localStorage.getItem('catdevs-sounds-enabled')!=='0';
+ let warningShown=false;
+ Object.entries(definitions).forEach(([key,def])=>{
+  const a=new Audio(); a.preload='auto'; a.src=def.src;
+  a.loop=key==='bg'||key==='purr';
+  a.volume=({bg:.12,meow:.22,purr:.24,error:.24,success:.19})[key];
+  tracks[key]=a; states[key]='pending';
+  a.addEventListener('canplay',()=>{states[key]='loaded';updateSoundSetting();checkAudioReadiness();},{once:true});
+  a.addEventListener('error',()=>{states[key]='failed';updateSoundSetting();checkAudioReadiness();},{once:true});
+  try{a.load();}catch(e){states[key]='failed';}
+ });
+ function stopAll(){Object.values(tracks).forEach(a=>{try{a.pause();a.currentTime=0;}catch(e){}});}
+ function play(name){if(!enabled)return;const a=tracks[name];if(!a||states[name]==='failed')return;try{if(name!=='bg'&&name!=='purr'){a.pause();a.currentTime=0;}const promise=a.play();if(promise&&promise.catch)promise.catch(()=>{});}catch(e){}}
+ function startBg(){if(!enabled||bgStarted||states.bg==='failed')return;bgStarted=true;play('bg');}
+ function stopPurr(){try{tracks.purr.pause();tracks.purr.currentTime=0;}catch(e){}}
+ function allReady(){return Object.values(states).every(v=>v==='loaded');}
+ function missing(){return Object.keys(states).filter(k=>states[k]!=='loaded').map(k=>definitions[k].label);}
+ function setEnabled(value){if(!allReady())return;enabled=!!value;localStorage.setItem('catdevs-sounds-enabled',enabled?'1':'0');if(!enabled)stopAll();else if(bgStarted)play('bg');updateSoundSetting();}
+ function updateSoundSetting(){
+  const btn=$('#sound-toggle'),label=$('#sound-label'),sw=$('#sound-switch');if(!btn||!label||!sw)return;
+  const ready=allReady();btn.disabled=!ready;btn.title=ready?'Включить или выключить звуки':'Звуки недоступны: один или несколько файлов не загрузились';
+  btn.setAttribute('aria-pressed',String(enabled));sw.classList.toggle('on',enabled&&ready);
+  label.textContent=ready?(enabled?'Звуки: включены':'Звуки: выключены'):'Звуки: недоступны';
+ }
+ function checkAudioReadiness(){
+  if(Object.values(states).some(v=>v==='pending'))return;
+  updateSoundSetting();
+  if(!allReady()&&!warningShown){warningShown=true;const list=$('#audio-missing-list'),details=$('#audio-warning-details');if(list)list.innerHTML=missing().map(name=>'<li>'+name.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))+'</li>').join('');if(details)details.textContent='Не загрузились: '+missing().join(', ')+'.';const modal=$('#audio-warning-modal');if(modal){modal.classList.add('active');document.body.style.overflow='hidden';}play('error');}
+ }
+ document.addEventListener('pointerdown',startBg,{once:true,passive:true});
+ document.addEventListener('keydown',startBg,{once:true});
+ $('#sound-toggle')?.addEventListener('click',()=>setEnabled(!enabled));
+ window.addEventListener('error',()=>play('error'));
+ window.addEventListener('unhandledrejection',()=>play('error'));
+ document.addEventListener('visibilitychange',()=>{if(!document.hidden&&bgStarted&&enabled&&tracks.bg.paused)play('bg');});
+ // Avoid waiting forever if GitHub Pages or a browser never emits a media error event.
+ setTimeout(()=>{Object.keys(states).forEach(k=>{if(states[k]==='pending')states[k]='failed';});checkAudioReadiness();},12000);
+ updateSoundSetting();
+ return {play,startBg,stopPurr,setEnabled,updateSoundSetting,allReady};
+})();
+function closeAudioWarning(){const modal=$('#audio-warning-modal');modal?.classList.remove('active');if(!$('#tos-modal')?.classList.contains('active')&&!$('#warning-modal')?.classList.contains('active')&&!$('#vpn-block-modal')?.classList.contains('active')&&!$('#external-confirm-modal')?.classList.contains('active'))document.body.style.overflow='';}
+
+
+(function(){
+ const saved=localStorage.getItem('catdevs-theme');
+ const theme=saved|| (matchMedia('(prefers-color-scheme: light)').matches?'light':'dark');
+ document.documentElement.classList.toggle('light',theme==='light');
+ updateThemeUI();
+})();
+
+function updateThemeUI(){
+ const light=document.documentElement.classList.contains('light');
+ $('#theme-switch').classList.toggle('on',light);
+ $('#theme-label').textContent=light?'Светлая тема':'Тёмная тема';
+ $('#theme-symbol').textContent=light?'☀':'☾';
+ document.querySelector('meta[name="theme-color"]').content=light?'#f1f2f6':'#030305';
+}
+function toggleTheme(e){
+ CatAudio.play('success');
+ const nextLight=!document.documentElement.classList.contains('light');
+ const x=e?.clientX ?? innerWidth/2, y=e?.clientY ?? innerHeight/2;
+ const tr=$('#theme-transition');
+ tr.style.setProperty('--tx',x+'px'); tr.style.setProperty('--ty',y+'px');
+ tr.classList.remove('fade'); void tr.offsetWidth; tr.classList.add('play');
+ setTimeout(()=>{
+   document.documentElement.classList.toggle('light',nextLight);
+   localStorage.setItem('catdevs-theme',nextLight?'light':'dark'); updateThemeUI();
+ },280);
+ setTimeout(()=>{tr.classList.add('fade');},700);
+ setTimeout(()=>{tr.classList.remove('play','fade');},1250);
+}
+$('#theme-toggle').addEventListener('click',toggleTheme);
+function updatePerformanceUI(){
+ const low=document.documentElement.classList.contains('low-power');
+ $('#performance-switch').classList.toggle('on',low);
+ $('#performance-label').textContent=low?'Для слабых устройств: ВКЛ':'Для слабых устройств';
+}
+(function(){
+ const saved=localStorage.getItem('catdevs-low-power');
+ const low=saved===null ? matchMedia('(prefers-reduced-motion: reduce)').matches : saved==='1';
+ document.documentElement.classList.toggle('low-power',low);
+ updatePerformanceUI();
+})();
+$('#performance-toggle').addEventListener('click',()=>{
+ CatAudio.play('success');
+ const low=!document.documentElement.classList.contains('low-power');
+ document.documentElement.classList.toggle('low-power',low);
+ localStorage.setItem('catdevs-low-power',low?'1':'0');
+ updatePerformanceUI();
+});
+
+
+const menuBtn=$('#menu-btn'),menu=$('#side-menu'),menuBackdrop=$('#side-menu-backdrop');
+function setMenu(open){
+ menu.classList.toggle('open',open);
+ menuBtn.classList.toggle('open',open);
+ menuBackdrop.classList.toggle('open',open);
+}
+menuBtn?.addEventListener('click',()=>setMenu(!menu.classList.contains('open')));
+menuBackdrop?.addEventListener('click',()=>setMenu(false));
+$$('.nav-item').forEach(a=>a.addEventListener('click',()=>setMenu(false)));
+
+let preloadDone=false;
+function finishPreloader(){
+  if(preloadDone)return;
+  preloadDone=true;
+  const pre=$('#preloader');
+  pre.classList.add('hidden');
+  $('#main-wrap').classList.add('visible');
+  setTimeout(()=>observeSections(),80);
+}
+const PRELOAD_DURATION=5000;
+const preloadStarted=performance.now();
+const revealAfterPreload=()=>{
+  const wait=Math.max(0,PRELOAD_DURATION-(performance.now()-preloadStarted));
+  setTimeout(finishPreloader,wait);
+};
+revealAfterPreload();
+window.addEventListener('load',revealAfterPreload);
+function enterSite(){finishPreloader()}
+function showScreen(name){$$('.screen').forEach(s=>s.classList.remove('active'));$('#screen-'+name).classList.add('active')}
+function showLoadingThenStatus(){showScreen('loading');setTimeout(()=>showScreen('status'),1800)}
+function openTos(){CatAudio.play('success');$('#tos-modal').classList.add('active');document.body.style.overflow='hidden'}
+function closeTos(){$('#tos-modal').classList.remove('active');document.body.style.overflow=''}
+function openWarningModal(){CatAudio.play('error');const b=$('#btn-mm2-locked');b.classList.remove('shaking');void b.offsetWidth;b.classList.add('shaking');setTimeout(()=>b.classList.remove('shaking'),750);$('#warning-modal').classList.add('active');document.body.style.overflow='hidden'}
+function closeWarningModal(){$('#warning-modal').classList.remove('active');document.body.style.overflow=''}
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeTos();closeWarningModal();closeExternalConfirm();closeVpnBlockModal();setMenu(false)}});
+
+function ripple(e){const b=e.currentTarget,r=document.createElement('span');r.className='ripple';const d=Math.max(b.clientWidth,b.clientHeight);r.style.width=r.style.height=d+'px';const x=e.clientX-b.getBoundingClientRect().left-d/2,y=e.clientY-b.getBoundingClientRect().top-d/2;r.style.left=x+'px';r.style.top=y+'px';b.appendChild(r);setTimeout(()=>r.remove(),700)}
+$$('.lg-btn,.enter-btn,.site-btn,.back-btn').forEach(b=>b.addEventListener('click',ripple));
+const lockButton=$('#btn-mm2-locked');
+if(lockButton){
+  lockButton.addEventListener('mouseenter',()=>{lockButton.classList.remove('shaking');void lockButton.offsetWidth;lockButton.classList.add('shaking');});
+  lockButton.addEventListener('animationend',e=>{if(e.animationName==='lockedButtonShake')lockButton.classList.remove('shaking')});
+}
+
+
+const dot=$('#cursor-dot'),ring=$('#cursor-ring'),trail=$('#cursor-trail');let mx=innerWidth/2,my=innerHeight/2,rx=mx,ry=my,tx=mx,ty=my;
+addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;document.documentElement.style.setProperty('--mx',mx+'px');document.documentElement.style.setProperty('--my',my+'px')});
+(function cursorLoop(){rx+=(mx-rx)*.22;ry+=(my-ry)*.22;tx+=(mx-tx)*.055;ty+=(my-ty)*.055;dot.style.left=mx+'px';dot.style.top=my+'px';ring.style.left=rx+'px';ring.style.top=ry+'px';trail.style.left=tx+'px';trail.style.top=ty+'px';requestAnimationFrame(cursorLoop)})();
+$$('a,button,.feature-item,.step').forEach(el=>{el.addEventListener('mouseenter',()=>ring.classList.add('hover'));el.addEventListener('mouseleave',()=>ring.classList.remove('hover'))});
+
+const card=$('#panel');
+card?.addEventListener('mousemove',e=>{const r=card.getBoundingClientRect(),x=(e.clientX-r.left)/r.width,y=(e.clientY-r.top)/r.height;card.style.setProperty('--card-x',x*100+'%');card.style.setProperty('--card-y',y*100+'%');card.style.transform=`perspective(1000px) rotateX(${(y-.5)*-2.5}deg) rotateY(${(x-.5)*3}deg) translateZ(4px)`});
+card?.addEventListener('mouseleave',()=>card.style.transform='');
+
+function observeSections(){
+ const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')}),{threshold:.12});
+ $$('.section').forEach(s=>io.observe(s));
+}
+if($('#main-wrap').classList.contains('visible'))observeSections();
+
+let vpnVerified=false;
+let vpnState='checking'; // verified | not-detected | unavailable | checking
+let vpnCheckInProgress=false;
+let pendingExternalUrl='';
+let pendingExternalLabel='';
+const serverLinkIds=['dynamic-site-btn','dynamic-site-btn-2','dynamic-site-btn-3'];
+function setVpnStatus(state,html){
+ const el=$('#vpn-status'); if(!el)return;
+ const previous=el.dataset.state;el.dataset.state=state;el.innerHTML=html;if(state==='blocked'&&previous!=='blocked')CatAudio.play('error');if(state==='ok'&&previous!=='ok')CatAudio.play('success');
+}
+function normalizeExternalUrl(raw){
+ try{
+   let value=String(raw||'').trim();
+   if(!value)return '';
+   if(!/^https?:\/\//i.test(value))value='https://'+value;
+   const url=new URL(value);
+   if(url.protocol!=='https:' && url.protocol!=='http:')return '';
+   return url.href;
+ }catch(e){return ''}
+}
+function openVpnBlockModal(options={}){
+ CatAudio.play('error');
+ const modal=$('#vpn-block-modal'),message=$('#vpn-block-message'),fallback=$('#vpn-fallback-go');
+ if(!modal)return;
+ if(options.unavailable){
+   message.innerHTML='Не удалось проверить VPN: сервис проверки может быть недоступен или блокировать запросы с GitHub Pages. <strong>Для перехода обязательно включите VPN.</strong> Мы не можем подтвердить, что он включён. Если вы уже включили VPN и понимаете риск, можно продолжить вручную. Для помощи воспользуйтесь <a class="vpn-help-link" href="https://t.me/antizhalostinet_bot?start=4777853041" target="_blank" rel="noopener noreferrer">этим ботом</a>.';
+   fallback.hidden=false;
+   fallback.onclick=()=>{const url=pendingExternalUrl,label=pendingExternalLabel;closeVpnBlockModal();if(url)openExternalConfirm(url,label);};
+ }else{
+   message.innerHTML='У вас выключен VPN, ссылки заблокированы. Пожалуйста, используйте любой рабочий сервис или воспользуйтесь <a class="vpn-help-link" href="https://t.me/antizhalostinet_bot?start=4777853041" target="_blank" rel="noopener noreferrer">этим</a>.';
+   fallback.hidden=true;fallback.onclick=null;
+ }
+ modal.classList.add('active');document.body.style.overflow='hidden';
+}
+function closeVpnBlockModal(){const modal=$('#vpn-block-modal');modal?.classList.remove('active');if(!$('#tos-modal')?.classList.contains('active')&&!$('#warning-modal')?.classList.contains('active')&&!$('#audio-warning-modal')?.classList.contains('active')&&!$('#external-confirm-modal')?.classList.contains('active'))document.body.style.overflow='';}
+$('#vpn-block-retry')?.addEventListener('click',async()=>{closeVpnBlockModal();await checkVpn();if(vpnState==='not-detected')openVpnBlockModal();});
+function closeExternalConfirm(){
+ $('#external-confirm-modal')?.classList.remove('active');
+ if(!$('#tos-modal')?.classList.contains('active') && !$('#warning-modal')?.classList.contains('active'))document.body.style.overflow='';
+ pendingExternalUrl='';
+}
+function openExternalConfirm(url,label){
+ pendingExternalUrl=url;pendingExternalLabel=label||'внешний ресурс';
+ $('#external-confirm-modal').classList.add('active');
+ document.body.style.overflow='hidden';
+}
+$('#external-confirm-go')?.addEventListener('click',()=>{
+ const url=pendingExternalUrl;
+ if(!url)return;
+ closeExternalConfirm();
+ window.open(url,'_blank','noopener,noreferrer');
+});
+async function loadLink(file,id,fallback){
+ const b=$('#'+id); if(!b)return;
+ b.dataset.targetUrl='';
+ b.href=fallback;
+ try{
+   const controller=new AbortController();
+   const timer=setTimeout(()=>controller.abort(),3500);
+   const r=await fetch(file,{cache:'no-store',signal:controller.signal});
+   clearTimeout(timer);
+   if(!r.ok)throw new Error('link unavailable');
+   const url=normalizeExternalUrl(await r.text());
+   if(!url)throw new Error('invalid URL');
+   b.dataset.targetUrl=url;
+ }catch(e){b.dataset.targetUrl='';}
+}
+async function checkVpn(){
+ if(vpnCheckInProgress)return;vpnCheckInProgress=true;vpnVerified=false;vpnState='checking';
+ setVpnStatus('checking','<strong>Проверка VPN…</strong> Определяем тип подключения.');
+ try{
+   const controller=new AbortController();
+   const timer=setTimeout(()=>controller.abort(),9000);
+   try{
+     const ipResponse=await fetch('https://api.ipify.org?format=json',{signal:controller.signal,cache:'no-store'});
+     if(!ipResponse.ok)throw new Error('Public IP lookup unavailable');
+     const ipData=await ipResponse.json();
+     const ip=String(ipData.ip||'').trim();
+     if(!ip || !/^[0-9a-fA-F:.]+$/.test(ip))throw new Error('Invalid public IP');
+     const response=await fetch('https://proxycheck.io/v2/'+encodeURIComponent(ip)+'?vpn=1&asn=1',{signal:controller.signal,cache:'no-store'});
+     if(!response.ok)throw new Error('VPN lookup unavailable');
+     const data=await response.json();
+     const record=data && data[ip];
+     if(!record || String(record.status||'').toLowerCase()==='error' || String(data.status||'').toLowerCase()==='error')throw new Error('VPN result unavailable');
+     const proxy=String(record.proxy||'').toLowerCase()==='yes';
+     const type=String(record.type||'').toLowerCase();
+     const detected=proxy || type.includes('vpn') || type.includes('proxy') || type.includes('tor');
+     if(detected){
+       vpnVerified=true;vpnState='verified';
+       setVpnStatus('ok','<strong>✓ VPN/прокси обнаружен.</strong> Ссылки доступны. Проверка выполняется сторонним сервисом и может ошибаться.');
+     }else{
+       vpnVerified=false;vpnState='not-detected';
+       setVpnStatus('blocked','<strong>⚠ VPN не обнаружен.</strong> Ссылки заблокированы. Включите VPN и нажмите «Повторить проверку».');
+       addVpnRetry();
+     }
+   }finally{clearTimeout(timer)}
+ }catch(e){
+   // GitHub Pages is static and cannot proxy third-party API calls. If the checker is unavailable,
+   // allow only an explicit, warned, per-link override rather than silently treating VPN as verified.
+   vpnVerified=false;vpnState='unavailable';
+   setVpnStatus('blocked','<strong>Проверка VPN недоступна.</strong> Для перехода обязательно включите VPN. При нажатии на ссылку появится предупреждение и ручное подтверждение.');
+   addVpnRetry();
+ }finally{vpnCheckInProgress=false;}
+}
+function addVpnRetry(){
+ const status=$('#vpn-status');if(!status || status.querySelector('button'))return;
+ const retry=document.createElement('button');retry.type='button';retry.className='back-btn';retry.style.cssText='margin:10px auto 0;padding:8px 14px;border-radius:10px;display:block';retry.textContent='Повторить проверку';retry.addEventListener('click',checkVpn);status.appendChild(retry);
+}
+serverLinkIds.forEach(id=>{
+ const b=$('#'+id);if(!b)return;
+ b.addEventListener('click',e=>{
+   e.preventDefault();
+   const url=b.dataset.targetUrl;
+   if(!url){CatAudio.play('error');setVpnStatus('blocked','<strong>Ссылка пока недоступна.</strong> Проверьте, что файл link.txt, link2.txt или link3.txt опубликован рядом с index.html и содержит корректную ссылку.');return;}
+   if(vpnState==='verified'&&vpnVerified){openExternalConfirm(url,b.textContent.trim());return;}
+   if(vpnState==='unavailable'){
+     pendingExternalUrl=url;pendingExternalLabel=b.textContent.trim();openVpnBlockModal({unavailable:true});return;
+   }
+   setVpnStatus('blocked','<strong>Ссылки заблокированы.</strong> Включите VPN и дождитесь успешной проверки.');
+   openVpnBlockModal();
+ });
+});
+(async function(){
+ await Promise.all([
+   loadLink('./link.txt','dynamic-site-btn','./404.html'),
+   loadLink('./link2.txt','dynamic-site-btn-2','./404.html'),
+   loadLink('./link3.txt','dynamic-site-btn-3','./404.html')
+ ]);
+ await checkVpn();
+})();
+
+const canvas=$('#bg-canvas'),ctx=canvas.getContext('2d');let W,H,particles=[],animationFrame=0,stars=[],shooters=[];
+function resize(){W=innerWidth;H=innerHeight;const d=Math.min(devicePixelRatio,2);canvas.width=W*d;canvas.height=H*d;canvas.style.width=W+'px';canvas.style.height=H+'px';ctx.setTransform(d,0,0,d,0,0)}
+addEventListener('resize',resize);resize();
+function particleCount(){return document.documentElement.classList.contains('low-power')?(innerWidth<650?10:18):(innerWidth<650?38:105)}
+function canvasThemeColors(){
+  const light=document.documentElement.classList.contains('light');
+  return light
+    ? {particle:[75,91,180], glow:[82,99,201], star:[55,63,95], shooter:[82,99,201]}
+    : {particle:[190,205,255], glow:[180,200,255], star:[255,255,255], shooter:[210,220,255]};
+}
+class P{constructor(){this.reset(true)}reset(initial=false){this.x=Math.random()*W;this.y=initial?Math.random()*H:H+Math.random()*100;this.r=Math.random()*1.8+.25;this.vx=(Math.random()-.35)*.38;this.vy=-(Math.random()*.55+.08);this.a=Math.random()*.55+.08;this.phase=Math.random()*Math.PI*2;this.tw=.008+Math.random()*.018}update(){this.phase+=this.tw;this.x+=this.vx+Math.sin(this.phase)*.08;this.y+=this.vy;this.a-=.00022;if(this.y<-30||this.a<=.03||this.x<-40||this.x>W+40)this.reset()}draw(){const a=Math.max(.03,this.a*(.72+.28*Math.sin(this.phase))),c=canvasThemeColors();ctx.beginPath();ctx.arc(this.x,this.y,this.r,0,Math.PI*2);ctx.fillStyle=`rgba(${c.particle.join(',')},${a})`;ctx.fill();if(this.r>1.35&&!document.documentElement.classList.contains('low-power')){ctx.beginPath();ctx.arc(this.x,this.y,this.r*3.5,0,Math.PI*2);ctx.fillStyle=`rgba(${c.glow.join(',')},${a*.06})`;ctx.fill()}}}
+class Star{constructor(){this.x=Math.random()*W;this.y=Math.random()*H;this.r=Math.random()*1.2+.15;this.a=Math.random()*.28+.05;this.phase=Math.random()*6.28;this.speed=.008+Math.random()*.015}draw(){this.phase+=this.speed;const a=this.a*(.55+.45*Math.sin(this.phase)),c=canvasThemeColors();ctx.fillStyle=`rgba(${c.star.join(',')},${a})`;ctx.fillRect(this.x,this.y,this.r,this.r)}}
+class Shooter{constructor(){this.reset()}reset(){this.x=Math.random()*W;this.y=Math.random()*H*.55;this.vx=5+Math.random()*4;this.vy=2+Math.random()*2;this.life=0;this.max=45+Math.random()*35;this.delay=Math.random()*500}update(){if(this.delay>0){this.delay--;return}this.x+=this.vx;this.y+=this.vy;this.life++;if(this.life>this.max||this.x>W+80||this.y>H+80)this.reset()}draw(){if(this.delay>0)return;const p=Math.min(1,this.life/10)*Math.max(0,1-this.life/this.max),c=canvasThemeColors();ctx.beginPath();ctx.moveTo(this.x,this.y);ctx.lineTo(this.x-this.vx*5,this.y-this.vy*5);ctx.strokeStyle=`rgba(${c.shooter.join(',')},${p*.32})`;ctx.lineWidth=1;ctx.stroke()}}
+function rebuildParticles(){particles=[];stars=[];shooters=[];for(let i=0;i<particleCount();i++)particles.push(new P());const low=document.documentElement.classList.contains('low-power');for(let i=0;i<(low?18:55);i++)stars.push(new Star());if(!low)for(let i=0;i<2;i++)shooters.push(new Shooter())}
+rebuildParticles();
+function animate(){ctx.clearRect(0,0,W,H);const low=document.documentElement.classList.contains('low-power');stars.forEach(s=>s.draw());particles.forEach(p=>{p.update();p.draw()});if(!low){shooters.forEach(s=>{s.update();s.draw()});for(let i=0;i<particles.length;i++)for(let j=i+1;j<particles.length;j++){const a=particles[i],b=particles[j],dx=a.x-b.x,dy=a.y-b.y,d=Math.hypot(dx,dy);if(d<125){ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);const cc=canvasThemeColors();ctx.strokeStyle=`rgba(${cc.glow.join(',')},${(1-d/125)*.075})`;ctx.lineWidth=.5;ctx.stroke()}}}animationFrame=requestAnimationFrame(animate)}animate();document.addEventListener('visibilitychange',()=>{if(document.hidden)cancelAnimationFrame(animationFrame);else{cancelAnimationFrame(animationFrame);animate()}});
+new MutationObserver(()=>rebuildParticles()).observe(document.documentElement,{attributes:true,attributeFilter:['class']});
+
+const hero3d=document.querySelector('.hero-3d');
+if(hero3d && !matchMedia('(prefers-reduced-motion: reduce)').matches){
+ let tx=0,ty=0,cx=0,cy=0;
+ window.addEventListener('pointermove',e=>{
+   const nx=(e.clientX/innerWidth-.5), ny=(e.clientY/innerHeight-.5);
+   tx=nx*10; ty=ny*7;
+ },{passive:true});
+ function animate3D(){
+   cx+=(tx-cx)*.045; cy+=(ty-cy)*.045;
+   hero3d.style.transform=`translateX(-50%) rotateY(${cx}deg) rotateX(${-cy}deg)`;
+   requestAnimationFrame(animate3D);
+ }
+ animate3D();
+}
+
+
+
+/* --- Virtual pet: persistent needs + procedural 3D kitten --- */
+(function initVirtualPet(){
+ const overlay=document.getElementById('pet-overlay');
+ const nav=document.getElementById('pet-nav-link');
+ const closeBtn=document.getElementById('pet-close');
+ const stage=document.getElementById('pet-stage');
+ const canvas=document.getElementById('pet-canvas');
+ const fallback=document.getElementById('pet-fallback');
+ if(!overlay||!nav||!stage)return;
+ const STORE='catdevs-virtual-pet-v1';
+ const MAX=100;
+ const DECAY_PER_HOUR=3; // points per hour while away
+ let selectedFood='kibble',toastTimer=0,scene,renderer,camera,catGroup,headGroup,tailGroup,raf=0,mouseX=0,mouseY=0,aimX=0,aimY=0,lastTick=Date.now();
+ let pet={hunger:82,thirst:88,lastUpdate:Date.now()};
+ try{const saved=JSON.parse(localStorage.getItem(STORE)||'null');if(saved&&Number.isFinite(saved.hunger)&&Number.isFinite(saved.thirst)){pet={hunger:Math.max(0,Math.min(100,saved.hunger)),thirst:Math.max(0,Math.min(100,saved.thirst)),lastUpdate:Number(saved.lastUpdate)||Date.now()};}}catch(e){}
+ function applyElapsed(){const now=Date.now();const elapsed=Math.max(0,now-(pet.lastUpdate||now));const hours=elapsed/3600000;pet.hunger=Math.max(0,pet.hunger-hours*DECAY_PER_HOUR);pet.thirst=Math.max(0,pet.thirst-hours*DECAY_PER_HOUR*1.25);pet.lastUpdate=now;lastTick=now;save();}
+ function save(){pet.lastUpdate=Date.now();try{localStorage.setItem(STORE,JSON.stringify(pet));}catch(e){}}
+ function toast(message){if(/уже сыт|уже полна|ошиб|нельзя|не удалось|недоступ/i.test(message))CatAudio.play('error');const el=document.getElementById('pet-toast');if(!el)return;el.textContent=message;el.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove('show'),2400)}
+ function speech(message){const el=document.getElementById('pet-speech');if(el)el.textContent=message;}
+ function renderStats(){
+  const h=Math.round(pet.hunger),t=Math.round(pet.thirst);
+  const set=(id,v)=>{const el=document.getElementById(id);if(el)el.textContent=v+'%'};
+  set('pet-hunger-label',h);set('pet-thirst-label',t);
+  const hb=document.getElementById('pet-hunger-bar'),tb=document.getElementById('pet-thirst-bar');if(hb)hb.style.width=h+'%';if(tb)tb.style.width=t+'%';
+  const mood=document.getElementById('pet-mood');
+  if(mood){if(h<20&&t<20){mood.textContent='Котик очень голоден и хочет пить. Не забудь о нём!';speech('Мяу… я проголодался и хочу пить 😿')}else if(h<20){mood.textContent='Котик очень голоден — пора его покормить.';speech('Мяу! Можно мне покушать?')}else if(t<20){mood.textContent='Котик хочет пить — наполни миску водой.';speech('Хочу водички, пожалуйста 💧')}else if(h<45||t<45){mood.textContent='Котик немного проголодался или хочет пить.';}else{mood.textContent='Котик доволен и ждёт твоей заботы.';}}
+  document.querySelectorAll('.pet-food').forEach(b=>b.classList.toggle('selected',b.dataset.food===selectedFood));
+ }
+ function openPet(e){if(e)e.preventDefault();applyElapsed();overlay.classList.add('open');overlay.setAttribute('aria-hidden','false');document.body.style.overflow='hidden';setTimeout(()=>{resizePet3D();if(!renderer)showFallback();},60);renderStats();if(pet.hunger<30||pet.thirst<30)speech('Ты вернулся! Поможешь мне? 🥺');else speech('Мяу! Я рад тебя видеть 🐾');}
+ function closePet(){overlay.classList.remove('open');overlay.setAttribute('aria-hidden','true');document.body.style.overflow='';speech('Я подожду тебя здесь 🐾');}
+ nav.addEventListener('click',e=>{e.preventDefault();if(typeof setMenu==='function')setMenu(false);openPet();});
+ closeBtn.addEventListener('click',closePet);
+ 
+overlay.addEventListener('click',e=>{if(e.target===overlay)closePet()});
+let petting=false,petHeartTimer=null,lastHeartAt=0;
+function spawnPetHeart(){const layer=document.getElementById('pet-heart-layer');if(!layer||!overlay.classList.contains('open'))return;const heart=document.createElement('span');heart.className='pet-heart';heart.textContent=['💗','💕','💖','♥'][Math.floor(Math.random()*4)];heart.style.left=(34+Math.random()*32)+'%';heart.style.setProperty('--drift',((Math.random()-.5)*70)+'px');layer.appendChild(heart);heart.addEventListener('animationend',()=>heart.remove(),{once:true});}
+function startPetting(e){if(!overlay.classList.contains('open'))return;const r=stage.getBoundingClientRect(),x=(e.clientX-r.left)/r.width,y=(e.clientY-r.top)/r.height;
+ // The head area is the upper-central region of the 3D stage; the emoji fallback uses the same hot zone.
+ if(x<.32||x>.70||y<.20||y>.61)return;petting=true;CatAudio.play('purr');spawnPetHeart();petHeartTimer=setInterval(spawnPetHeart,330);speech('Мррр… как приятно! 💗');}
+function stopPetting(){if(!petting)return;petting=false;if(petHeartTimer)clearInterval(petHeartTimer);petHeartTimer=null;CatAudio.stopPurr();}
+stage.addEventListener('pointerdown',startPetting);window.addEventListener('pointerup',stopPetting);window.addEventListener('pointercancel',stopPetting);stage.addEventListener('pointerleave',stopPetting);
+
+ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&overlay.classList.contains('open'))closePet()});
+ document.querySelectorAll('.pet-food').forEach(btn=>btn.addEventListener('click',()=>{selectedFood=btn.dataset.food;document.querySelectorAll('.pet-food').forEach(b=>b.style.borderColor=b===btn?'#9bb2ff':'');const names={kibble:'корм',fish:'рыбку',chicken:'курицу'};speech('Ты выбрал(а) '+names[selectedFood]+'! Нажми «Покормить».');}));
+ document.getElementById('pet-feed-btn').addEventListener('click',()=>{const foods={kibble:{gain:25,name:'корм'},fish:{gain:35,name:'рыбку'},chicken:{gain:30,name:'курицу'}};const food=foods[selectedFood]||foods.kibble;if(pet.hunger>=100){toast('Котик уже сыт 😸');return;}CatAudio.play('meow');pet.hunger=Math.min(100,pet.hunger+food.gain);save();renderStats();speech('Мррр! Спасибо за '+food.name+' 😻');toast('Котик съел '+food.name+'!');});
+ document.getElementById('pet-water-btn').addEventListener('click',()=>{if(pet.thirst>=100){toast('Миска уже полна 💧');return;}CatAudio.play('meow');pet.thirst=100;save();renderStats();speech('Буль-буль… как вкусно! 💧');toast('Миска наполнена свежей водой!');});
+ // Needs decay while the page is open, and elapsed wall-clock time is applied when the user returns.
+ setInterval(()=>{const now=Date.now();const hours=Math.max(0,now-lastTick)/3600000;lastTick=now;pet.hunger=Math.max(0,pet.hunger-hours*DECAY_PER_HOUR);pet.thirst=Math.max(0,pet.thirst-hours*DECAY_PER_HOUR*1.25);save();if(overlay.classList.contains('open'))renderStats();},15000);
+ document.addEventListener('visibilitychange',()=>{if(!document.hidden){applyElapsed();if(overlay.classList.contains('open'))renderStats();}else save()});
+ window.addEventListener('pagehide',save);
+ function showFallback(){if(fallback)fallback.style.display='flex';if(canvas)canvas.style.display='none';}
+ function resizePet3D(){if(!renderer||!camera)return;const w=Math.max(1,stage.clientWidth),h=Math.max(1,stage.clientHeight);renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();}
+ function makeMat(color,roughness=.72,metalness=0){return new THREE.MeshStandardMaterial({color,roughness,metalness});}
+ function addEllipsoid(parent,geo,mat,pos,scale){const m=new THREE.Mesh(geo,mat);m.position.set(...pos);m.scale.set(...scale);m.castShadow=true;m.receiveShadow=true;parent.add(m);return m;}
+ function build3D(){
+  if(!window.THREE||!canvas||!window.WebGLRenderingContext){showFallback();return;}
+  try{
+   scene=new THREE.Scene();scene.fog=new THREE.Fog(0x0b1230,5,15);
+   camera=new THREE.PerspectiveCamera(34,1,.1,50);camera.position.set(0,1.65,7.7);camera.lookAt(0,1.05,0);
+   renderer=new THREE.WebGLRenderer({canvas,alpha:true,antialias:true,powerPreference:'low-power'});renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,1.7));renderer.setClearColor(0x000000,0);renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;
+   scene.add(new THREE.HemisphereLight(0xbacaff,0x202849,2.05));const key=new THREE.DirectionalLight(0xffe7d0,3.0);key.position.set(-3,5,5);key.castShadow=true;scene.add(key);const rim=new THREE.PointLight(0x7189ff,2.7,10);rim.position.set(3,2.8,-2);scene.add(rim);const blue=new THREE.PointLight(0x39c8ff,1.2,8);blue.position.set(-3,.4,2);scene.add(blue);
+   const floor=new THREE.Mesh(new THREE.CircleGeometry(2.2,64),new THREE.MeshStandardMaterial({color:0x182451,roughness:.7,metalness:.18,transparent:true,opacity:.8}));floor.rotation.x=-Math.PI/2;floor.position.y=-.05;floor.receiveShadow=true;scene.add(floor);
+   const ring=new THREE.Mesh(new THREE.TorusGeometry(1.65,.018,8,100),new THREE.MeshBasicMaterial({color:0x6d8cff,transparent:true,opacity:.65}));ring.rotation.x=Math.PI/2;ring.position.y=-.025;scene.add(ring);
+   // Two little 3D bowls: kibble on the left, fresh water on the right.
+   const bowlMat=new THREE.MeshStandardMaterial({color:0x242f63,metalness:.48,roughness:.28});
+   const bowlRim=new THREE.MeshStandardMaterial({color:0x829cff,metalness:.65,roughness:.2,emissive:0x1c2d76,emissiveIntensity:.45});
+   const bowlFood=new THREE.MeshStandardMaterial({color:0xb97942,roughness:.88});
+   const bowlWater=new THREE.MeshStandardMaterial({color:0x2ccaff,metalness:.25,roughness:.16,transparent:true,opacity:.82,emissive:0x087db5,emissiveIntensity:.4});
+   function makeBowl(x,water=false){const g=new THREE.Group();g.position.set(x,.03,.78);scene.add(g);const base=new THREE.Mesh(new THREE.CylinderGeometry(.37,.29,.16,32),bowlMat);base.position.y=.08;base.castShadow=true;g.add(base);const rimMesh=new THREE.Mesh(new THREE.TorusGeometry(.35,.035,10,40),bowlRim);rimMesh.rotation.x=Math.PI/2;rimMesh.position.y=.17;g.add(rimMesh);if(water){const liquid=new THREE.Mesh(new THREE.CircleGeometry(.31,32),bowlWater);liquid.rotation.x=-Math.PI/2;liquid.position.y=.155;g.add(liquid);}else{for(let i=0;i<15;i++){const a=i*2.399,r=.06+Math.sqrt(i/15)*.22;const pellet=new THREE.Mesh(new THREE.SphereGeometry(.045,8,6),bowlFood);pellet.scale.set(1,.65,.8);pellet.position.set(Math.cos(a)*r,.17,Math.sin(a)*r);g.add(pellet);}}return g;}
+   makeBowl(-1.12,false);makeBowl(1.12,true);
+   // A more polished stylized kitten: soft proportions, layered markings, detailed face and paws.
+   const fur=new THREE.MeshStandardMaterial({color:0x777f98,roughness:.94});
+   const furLight=new THREE.MeshStandardMaterial({color:0xaab2c9,roughness:.98});
+   const cream=new THREE.MeshStandardMaterial({color:0xe5dfdf,roughness:.96});
+   const dark=new THREE.MeshStandardMaterial({color:0x343b52,roughness:.92});
+   const stripeMat=new THREE.MeshStandardMaterial({color:0x4a526d,roughness:1});
+   const pink=new THREE.MeshStandardMaterial({color:0xe99bab,roughness:.66});
+   const earShadow=new THREE.MeshStandardMaterial({color:0xb86f89,roughness:.85});
+   const eye=new THREE.MeshPhysicalMaterial({color:0x53caff,roughness:.14,metalness:.08,clearcoat:1,clearcoatRoughness:.08});
+   const irisRing=new THREE.MeshBasicMaterial({color:0x9be9ff});
+   const black=new THREE.MeshStandardMaterial({color:0x101525,roughness:.18});
+   const white=new THREE.MeshBasicMaterial({color:0xffffff});
+   catGroup=new THREE.Group();scene.add(catGroup);
+   const sphere=new THREE.SphereGeometry(1,48,36);
+   const smoothSphere=new THREE.SphereGeometry(1,40,32);
+   function ell(parent,mat,pos,scale,geo=sphere){return addEllipsoid(parent,geo,mat,pos,scale)}
+   // Seated, compact body with rounded haunches and a fluffy chest bib.
+   ell(catGroup,fur,[0,.72,-.02],[.59,.73,.48]);
+   ell(catGroup,fur,[0,.48,-.13],[.56,.43,.47]);
+   ell(catGroup,cream,[0,.69,.365],[.34,.48,.16]);
+   ell(catGroup,furLight,[0,.91,.345],[.22,.27,.11]);
+   // Head is deliberately broad and kitten-like, with soft cheek volume.
+   headGroup=new THREE.Group();headGroup.position.set(0,1.69,.105);catGroup.add(headGroup);
+   ell(headGroup,fur,[0,.045,0],[.665,.59,.51]);
+   ell(headGroup,furLight,[0,-.13,.285],[.48,.36,.245]);
+   // Rounded triangular ears made from a rounded base plus inner inset, not hard cones.
+   for(const side of [-1,1]){
+     const ear=ell(headGroup,fur,[side*.435,.435,-.055],[.245,.34,.145],smoothSphere);ear.rotation.z=side*-.22;
+     const inner=ell(headGroup,pink,[side*.438,.442,.067],[.151,.235,.043],smoothSphere);inner.rotation.z=side*-.22;
+     const innerGlow=ell(headGroup,earShadow,[side*.438,.405,.101],[.088,.15,.018],smoothSphere);innerGlow.rotation.z=side*-.22;
+   }
+   // Face mask and cheek tufts soften the joins and give a plush silhouette.
+   ell(headGroup,cream,[0,-.205,.415],[.36,.245,.14]);
+   for(const side of [-1,1]){
+     ell(headGroup,cream,[side*.255,-.205,.438],[.235,.185,.14]);
+     ell(headGroup,furLight,[side*.42,-.12,.32],[.14,.16,.1]);
+   }
+   // Big glassy eyes with iris rim, deep pupils and multiple catchlights.
+   const pupils=[];
+   for(const side of [-1,1]){
+     ell(headGroup,dark,[side*.255,.015,.468],[.175,.205,.085]);
+     ell(headGroup,irisRing,[side*.255,.015,.528],[.146,.174,.065]);
+     ell(headGroup,eye,[side*.255,.015,.547],[.129,.158,.061]);
+     const pupil=ell(headGroup,black,[side*.255,.012,.598],[.062,.119,.028]);pupils.push(pupil);
+     ell(headGroup,white,[side*.282,.075,.621],[.039,.047,.016]);
+     ell(headGroup,white,[side*.224,-.022,.622],[.017,.021,.009]);
+     // Gentle brow markings add expression without making the face look mechanical.
+     const brow=ell(headGroup,stripeMat,[side*.255,.235,.468],[.16,.033,.045]);brow.rotation.z=side*-.11;
+   }
+   // Small pink nose, philtrum and a subtle smiling mouth.
+   ell(headGroup,pink,[0,-.205,.574],[.073,.052,.044],smoothSphere);
+   const mouthMat=new THREE.LineBasicMaterial({color:0x755568,transparent:true,opacity:.9});
+   function faceLine(points){const line=new THREE.Line(new THREE.BufferGeometry().setFromPoints(points.map(p=>new THREE.Vector3(...p))),mouthMat);headGroup.add(line);}
+   faceLine([[0,-.245,.574],[0,-.292,.567]]);
+   faceLine([[0,-.292,.567],[-.075,-.315,.55],[-.12,-.296,.542]]);
+   faceLine([[0,-.292,.567],[.075,-.315,.55],[.12,-.296,.542]]);
+   // Whisker freckles and fine whiskers.
+   const freckleMat=makeMat(0x777889);
+   for(const side of [-1,1]){
+     for(let i=0;i<3;i++)ell(headGroup,freckleMat,[side*(.16+i*.045),-.235+(i%2)*.045,.558],[.012,.012,.008],smoothSphere);
+   }
+   const whiskerMat=new THREE.LineBasicMaterial({color:0xdfe7ff,transparent:true,opacity:.62});
+   for(const side of [-1,1])for(let i=0;i<3;i++){
+     const y=-.235+i*.055;
+     const pts=[new THREE.Vector3(side*.22,y,.55),new THREE.Vector3(side*.43,y+(i-1)*.035,.51),new THREE.Vector3(side*.62,y+(i-1)*.07,.44)];
+     headGroup.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts),whiskerMat));
+   }
+   // Forehead M-marking and soft tabby stripes on crown and shoulders.
+   for(let i=0;i<5;i++){
+     const x=(i-2)*.105;
+     const mark=ell(headGroup,i===2?dark:stripeMat,[x,.43-Math.abs(i-2)*.025,.473],[.027,.13-Math.abs(i-2)*.012,.018],smoothSphere);
+     mark.rotation.z=-x*.85;
+   }
+   // Shoulder and flank tabby accents, placed flush to the rounded body.
+   for(const side of [-1,1]){
+     for(let i=0;i<3;i++){
+       const mark=ell(catGroup,stripeMat,[side*(.49-i*.025),.82-i*.14,.12-i*.035],[.035,.12,.025],smoothSphere);
+       mark.rotation.z=side*.32;
+     }
+   }
+   // Short rounded legs, soft paws and little toe creases.
+   for(const side of [-1,1]){
+     ell(catGroup,fur,[side*.315,.31,.245],[.17,.38,.19],smoothSphere);
+     ell(catGroup,cream,[side*.315,.105,.335],[.19,.135,.205],smoothSphere);
+     for(let toe=0;toe<3;toe++){
+       const tx=side*.315+(toe-1)*.075;
+       const crease=new THREE.Mesh(new THREE.SphereGeometry(.012,10,8),dark);crease.scale.set(1,1,.45);crease.position.set(tx,.095,.521);catGroup.add(crease);
+     }
+   }
+   // Hind paws peek out at either side, helping the seated pose read clearly.
+   for(const side of [-1,1])ell(catGroup,furLight,[side*.43,.16,-.02],[.22,.15,.27],smoothSphere);
+   // A smooth curved tail built from a tube; the group keeps its playful swish animation.
+   tailGroup=new THREE.Group();tailGroup.position.set(.43,.58,-.2);catGroup.add(tailGroup);
+   const tailCurve=new THREE.CatmullRomCurve3([
+     new THREE.Vector3(0,0,0),new THREE.Vector3(.22,.02,-.02),new THREE.Vector3(.42,.16,-.025),new THREE.Vector3(.48,.39,-.01),new THREE.Vector3(.39,.55,.02)
+   ]);
+   const tailMesh=new THREE.Mesh(new THREE.TubeGeometry(tailCurve,32,.105,12,false),fur);tailMesh.castShadow=true;tailMesh.receiveShadow=true;tailGroup.add(tailMesh);
+   const tailTip=ell(tailGroup,dark,[.39,.55,.02],[.11,.12,.11],smoothSphere);
+   // Tiny tufts along the cheeks and crown break up the perfectly smooth silhouette.
+   for(const side of [-1,1]){
+     const tuft=ell(headGroup,furLight,[side*.57,-.15,.19],[.12,.08,.09],smoothSphere);tuft.rotation.z=side*.55;
+   }
+   resizePet3D();canvas.style.display='block';if(fallback)fallback.style.display='none';
+   const clock=new THREE.Clock();function draw(){raf=requestAnimationFrame(draw);const t=clock.getElapsedTime();if(!overlay.classList.contains('open')){renderer.render(scene,camera);return;}catGroup.position.y=.035*Math.sin(t*2.1);catGroup.rotation.y+=(aimX-catGroup.rotation.y)*.045;catGroup.rotation.x+=(aimY-catGroup.rotation.x)*.04;if(headGroup){headGroup.rotation.y+=(mouseX*.24-headGroup.rotation.y)*.055;headGroup.rotation.x+=(-mouseY*.14-headGroup.rotation.x)*.055;}if(tailGroup)tailGroup.rotation.z=.22*Math.sin(t*2.2);ring.rotation.z=t*.12;renderer.render(scene,camera);}
+   draw();
+   stage.addEventListener('pointermove',e=>{const r=stage.getBoundingClientRect();mouseX=((e.clientX-r.left)/r.width-.5)*2;mouseY=((e.clientY-r.top)/r.height-.5)*2;aimX=mouseX*.2;aimY=-mouseY*.08;},{passive:true});
+   window.addEventListener('resize',resizePet3D);
+  }catch(err){CatAudio.play('error');showFallback();}
+ }
+ build3D();renderStats();
+})();
+
+</script>
+<script>
+// Small dynamic easter eggs: triple-click the pet heading, or enter the classic Konami sequence.
+(function(){
+ const secretTarget=document.getElementById('pet-heading');let clicks=0,clickTimer=null;
+ function secret(message,emoji='🐈‍⬛💖✨'){
+  const pop=document.getElementById('easter-pop');if(pop){pop.textContent=emoji;pop.classList.add('show');setTimeout(()=>pop.classList.remove('show'),1700);}
+  const t=document.getElementById('toast');if(t){t.textContent=message;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2400);}
+  CatAudio.play('success');
+ }
+ secretTarget?.addEventListener('click',()=>{clicks++;clearTimeout(clickTimer);clickTimer=setTimeout(()=>clicks=0,800);if(clicks>=3){clicks=0;secret('Секрет найден: CatDevs любит котиков! 🐾','🐈‍⬛💖✨');}});
+ const code=['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];let pos=0;
+ document.addEventListener('keydown',e=>{const k=e.key.length===1?e.key.toLowerCase():e.key;if(k===code[pos])pos++;else pos=k===code[0]?1:0;if(pos===code.length){pos=0;secret('Пасхалка активирована: мяу-режим! 😼','😻💫🐾');document.documentElement.classList.add('cat-secret-mode');setTimeout(()=>document.documentElement.classList.remove('cat-secret-mode'),4500);}});
+})();
+</script>
+</body>
+</html>
